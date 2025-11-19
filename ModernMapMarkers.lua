@@ -67,6 +67,7 @@ local points = {
 	{2, 26, 0.355, 0.855, "Upper Blackrock Spire", "dungeon", "55-60", 26},
 	{2, 39, 0.67, 0.634, "Dragonmaw Retreat", "dungeon", "27-33", 4},
 	{2, 5, 0.57, 0.598, "Stormwrought Ruins", "dungeon", "35-41", 21},
+	{2, 5, 0.561, 0.846, "Stormwrought Ruins - Back Entrance", "dungeon", "35-41", 21},
 	-- Eastern Kingdoms Raids
 	{2, 26, 0.332, 0.851, "Blackwing Lair", "raid", "60", 2},
 	{2, 8, 0.273, 0.363, "Blackwing Lair", "raid", "60", 2},
@@ -571,4 +572,5 @@ end
 if debug then
     DEFAULT_CHAT_FRAME:AddMessage("Modern Map Markers: Initial Load Complete")
 end
+
 
