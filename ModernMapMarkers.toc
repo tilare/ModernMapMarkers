@@ -1,5 +1,5 @@
 ## Interface: 11200
-## Title: |cff7fff7fM|cffffffffodern |cff7fff7fM|cffffffffap |cff7fff7fM|cffffffffarkers
+## Title: |cff7fff7fModern|rMapMarkers
 ## Author: tilr & Heallios
 ## Notes: Shows dungeon, raid, world boss, boat, zeppelin, and tram locations on the world map
 ## Version: 1.3
