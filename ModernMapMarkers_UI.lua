@@ -59,7 +59,7 @@ function MMM_GUI.InitializeWorldMapControls()
     end
     
     -- Determine Parent Frame (Standard or pfQuest)
-    local dropdownParent = WorldMapButton or WorldMapFrame
+    local dropdownParent = WorldMapFrame
 
     local dropdownWidth = 120
     local dropdownButtonWidth = 125 
@@ -70,21 +70,18 @@ function MMM_GUI.InitializeWorldMapControls()
 
     -- Filter Dropdown
     local filterFrame = CreateFrame("Frame", "ModernMapMarkersFilter_Blizz", dropdownParent, "UIDropDownMenuTemplate")
-    
+
+    filterFrame:SetFrameStrata(dropdownParent:GetFrameStrata())
     filterFrame:SetFrameLevel(dropdownParent:GetFrameLevel() + 10)
     
     local filterBtn = getglobal(filterFrame:GetName().."Button")
     if filterBtn then filterBtn:SetFrameLevel(filterFrame:GetFrameLevel() + 2) end
-    
+
     -- Positioning
     if _G.pfQuestMapDropdown then
         filterFrame:SetPoint("TOPRIGHT", _G.pfQuestMapDropdown, "BOTTOMRIGHT", 0, 0)
     else
-        if dropdownParent == WorldMapButton then
-            filterFrame:SetPoint("TOPRIGHT", dropdownParent, "TOPRIGHT", 0, -10)
-        else
-            filterFrame:SetPoint("TOPRIGHT", WorldMapFrame, "TOPRIGHT", -10, -40)
-        end
+        filterFrame:SetPoint("TOPRIGHT", WorldMapFrame, "TOPRIGHT", -10, -40)
     end
     
     UIDropDownMenu_Initialize(filterFrame, function(level)
@@ -153,6 +150,13 @@ function MMM_GUI.InitializeWorldMapControls()
 
     findFrame:SetPoint("TOPRIGHT", filterFrame, "BOTTOMRIGHT", 0, 0)
     
+    -- Make the dropdown list open to the left instead of the right
+    findFrame.point = "TOPRIGHT"
+    findFrame.relativePoint = "BOTTOMRIGHT"
+    findFrame.relativeTo = findFrame
+    findFrame.xOffset = -5
+    findFrame.yOffset = 15
+
     UIDropDownMenu_Initialize(findFrame, function(level)
         local flatData = ModernMapMarkers_GetFlatData()
         
@@ -169,13 +173,13 @@ function MMM_GUI.InitializeWorldMapControls()
         if level == 1 then
             -- Continent
             local info = {}
-            info.text = "Kalimdor"
+            info.text = "          Kalimdor"
             info.value = 1
             info.hasArrow = 1
             info.notCheckable = 1
             UIDropDownMenu_AddButton(info, level)
 
-            info.text = "Eastern Kingdoms"
+            info.text = "          Eastern Kingdoms"
             info.value = 2
             info.hasArrow = 1
             info.notCheckable = 1
@@ -186,13 +190,13 @@ function MMM_GUI.InitializeWorldMapControls()
             local contID = UIDROPDOWNMENU_MENU_VALUE
             if contID then
                 local info = {}
-                info.text = "Dungeons"
+                info.text = "          Dungeons"
                 info.value = contID .. ":DUNGEON"
                 info.hasArrow = 1
                 info.notCheckable = 1
                 UIDropDownMenu_AddButton(info, level)
 
-                info.text = "Raids"
+                info.text = "          Raids"
                 info.value = contID .. ":RAID"
                 info.hasArrow = 1
                 info.notCheckable = 1
@@ -268,3 +272,54 @@ initFrame:SetScript("OnEvent", function()
 end)
 
 _G.ModernMapMarkers_GUI = MMM_GUI
+
+
+-- Hook the global dropdown toggle to open dropdown left
+local original_ToggleDropDownMenu = ToggleDropDownMenu
+function ToggleDropDownMenu(level, value, dropDownFrame, anchorName, xOffset, yOffset)
+    original_ToggleDropDownMenu(level, value, dropDownFrame, anchorName, xOffset, yOffset)
+
+    local currentLevel = level or 1
+    
+    if UIDROPDOWNMENU_OPEN_MENU == "ModernMapMarkersFind_Blizz" or UIDROPDOWNMENU_OPEN_MENU == "ModernMapMarkersFilter_Blizz" then
+        
+        if currentLevel > 1 then
+            local currentList = getglobal("DropDownList" .. currentLevel)
+            local parentList = getglobal("DropDownList" .. (currentLevel - 1))
+            
+            if currentList and parentList then
+                currentList:ClearAllPoints()
+                currentList:SetPoint("TOPRIGHT", parentList, "TOPLEFT", 0, 0)
+            end
+        end
+
+        -- Arrows to left side
+        local listFrameName = "DropDownList" .. currentLevel
+        for i = 1, 32 do
+            local expandArrow = getglobal(listFrameName .. "Button" .. i .. "ExpandArrow")
+            if expandArrow and expandArrow:IsVisible() then
+                local button = getglobal(listFrameName .. "Button" .. i)
+                expandArrow:ClearAllPoints()
+                expandArrow:SetPoint("LEFT", button, "LEFT", 5, 0)
+                if expandArrow.GetNormalTexture and expandArrow:GetNormalTexture() then
+                    expandArrow:GetNormalTexture():SetTexCoord(1, 0, 0, 1)
+                end
+            end
+        end
+
+    else
+        -- Reset the arrows to the right after finished using MMM
+        local listFrameName = "DropDownList" .. currentLevel
+        for i = 1, 32 do
+            local expandArrow = getglobal(listFrameName .. "Button" .. i .. "ExpandArrow")
+            if expandArrow then
+                local button = getglobal(listFrameName .. "Button" .. i)
+                expandArrow:ClearAllPoints()
+                expandArrow:SetPoint("RIGHT", button, "RIGHT", -5, 0) 
+                if expandArrow.GetNormalTexture and expandArrow:GetNormalTexture() then
+                    expandArrow:GetNormalTexture():SetTexCoord(0, 1, 0, 1)
+                end
+            end
+        end
+    end
+end
