@@ -1,97 +1,168 @@
--- Format: { continent, zoneID, x, y, name, type, info, Atlas ID }
+-- Format: { x=, y=, name=, type=, info=, atlas= }
+-- type values: "dungeon", "raid", "worldboss", "boat", "zepp", "tram"
+-- info: level range string for instances, faction string for transports
+-- atlas: Atlas addon zone ID (nil if not applicable)
 ModernMapMarkers_Points = {
-    -- Kalimdor Dungeons
-    {1, 1, 0.123, 0.128, "Blackfathom Deeps", "dungeon", "24-32", 2},
-    {1, 23, 0.66, 0.49, "Black Morass", "dungeon", "60", 1},
-    {1, 1, 0.51, 0.78, "Crescent Grove", "dungeon", "32-38", 3},
-    {1, 12, 0.648, 0.303, "Dire Maul - East", "dungeon", "55-58", 4},
-    {1, 12, 0.624, 0.249, "Dire Maul - North", "dungeon", "57-60", 5},
-    {1, 12, 0.604, 0.311, "Dire Maul - West", "dungeon", "57-60", 6},
-    {1, 7, 0.29, 0.629, "Maraudon", "dungeon", "46-55", 7},
-    {1, 20, 0.53, 0.486, "Ragefire Chasm", "dungeon", "13-18", 8},
-    {1, 26, 0.488, 0.919, "Razorfen Downs", "dungeon", "37-46", 9},
-    {1, 26, 0.407, 0.873, "Razorfen Kraul", "dungeon", "29-38", 10},
-    {1, 26, 0.462, 0.357, "Wailing Caverns", "dungeon", "17-24", 11},
-    {1, 23, 0.389, 0.184, "Zul'Farrak", "dungeon", "44-54", 12},
-	-- Kalimdor Raids
-	{1, 15, 0.207, 0.592, "Emerald Sanctum", "raid", "60", 14},
-	{1, 10, 0.53, 0.76, "Onyxia's Lair", "raid", "60", 15},
-	{1, 21, 0.296, 0.960, "Ruins of Ahn'Qiraj", "raid", "60", 13},
-	{1, 21, 0.282, 0.956, "Temple of Ahn'Qiraj", "raid", "60", 16},
-	-- Kalimdor World Bosses
-	{1, 2, 0.535, 0.816, "Azuregos", "worldboss", "60", nil},
-	{1, 2, 0.69, 0.094, "Cla'ckora", "worldboss", "60", nil},
-	{1, 7, 0.82, 0.80, "Concavius", "worldboss", "60"},
-	{1, 15, 0.336, 0.398, "Father Lycan", "worldboss", "60", nil},
-	{1, 23, 0.361, 0.762, "Ostarius", "worldboss", "60", nil},
-	{1, 1, 0.937, 0.355, "Emerald Dragon - Spawn Point 1 of 4", "worldboss", "60", nil},
-	{1, 12, 0.512, 0.108, "Emerald Dragon - Spawn Point 2 of 4", "worldboss", "60", nil},
-    -- Kalimdor Transport
-    {1, 9, 0.512, 0.135, "Zeppelins to UC & Grom'Gol", "zepp", "Horde", nil},
-    {1, 9, 0.415, 0.184, "Zeppelins to TB & Kargath", "zepp", "Horde", nil},
-    {1, 28, 0.165, 0.230, "Zeppelin to Orgrimmar", "zepp", "Horde", nil},
-    {1, 9, 0.598, 0.236, "Boat to Revantusk Village ", "boat", "Horde", nil},
-    {1, 26, 0.636, 0.389, "Boat to Booty Bay", "boat", "Neutral", nil},
-	{1, 5, 0.324, 0.44, "Boat to Stormwind", "boat", "Alliance", nil},
-	{1, 5, 0.304, 0.41, "Boat to Alah'Thalas", "boat", "Alliance", nil},
-	{1, 5, 0.333, 0.399, "Boat to Rut'Theran Village", "boat", "Alliance", nil},
-	{1, 10, 0.718, 0.566, "Boat to Menethil Harbor", "boat", "Alliance", nil},
-	{1, 12, 0.311, 0.395, "Boat to Forgotten Coast", "boat", "Alliance", nil},
-	{1, 12, 0.431, 0.428, "Boat to Sardor Isle", "boat", "Alliance", nil},
-	{1, 25, 0.552, 0.949, "Boat to Auberdine", "boat", "Alliance", nil},
-    -- Eastern Kingdoms Dungeons
-    {2, 26, 0.371, 0.857, "Blackrock Depths", "dungeon", "52-60", 1},
-	{2, 8, 0.328, 0.362, "Blackrock Depths", "dungeon", "52-60", 1},
-    {2, 38, 0.423, 0.726, "The Deadmines", "dungeon", "17-24", 2},
-    {2, 15, 0.30, 0.27, "Gilneas City", "dungeon", "43", 4},
-    {2, 10, 0.248, 0.337, "Gnomeregan", "dungeon", "29-38", 5},
-    {2, 8, 0.95, 0.53, "Hateforge Quarry", "dungeon", "52-60", 6},
-    {2, 9, 0.45, 0.75, "Karazhan Crypt", "dungeon", "58-60", 7},
-    {2, 8, 0.321, 0.386, "Lower Blackrock Spire", "dungeon", "55-60", 20},
-	{2, 26, 0.364, 0.879, "Lower Blackrock Spire", "dungeon", "55-60", 20},
-    {2, 34, 0.869, 0.323, "Scarlet Monastery - Armory", "dungeon", "32-42", 8}, 
-    {2, 34, 0.862, 0.295, "Scarlet Monastery - Cathedral", "dungeon", "35-45", 9}, 
-    {2, 34, 0.839, 0.283, "Scarlet Monastery - Graveyard", "dungeon", "26-36", 10},
-    {2, 34, 0.850, 0.338, "Scarlet Monastery - Library", "dungeon", "29-39", 11},
-    {2, 37, 0.69, 0.74, "Scholomance", "dungeon", "58-60", 12},
-    {2, 27, 0.44, 0.67, "Shadowfang Keep", "dungeon", "22-30", 13},
-    {2, 28, 0.51, 0.675, "The Stockade", "dungeon", "24-31", 14},
-    {2, 28, 0.63, 0.58, "Stormwind Vault", "dungeon", "60", 15},
-    {2, 13, 0.29, 0.61, "Stormwind Vault - Horde Entrance", "dungeon", "60", 15},
-    {2, 12, 0.31, 0.14, "Stratholme", "dungeon", "58-60", 17},
-    {2, 12, 0.47, 0.24, "Stratholme - Back Gate", "dungeon", "58-60", 17},
-    {2, 30, 0.701, 0.55, "The Sunken Temple", "dungeon", "50-60", 18},
-    {2, 4, 0.429, 0.130, "Uldaman - Main Entrance", "dungeon", "41-51", 19},
-    {2, 4, 0.657, 0.438, "Uldaman - Back Entrance", "dungeon", "41-51", 19},
-    {2, 8, 0.312, 0.365, "Upper Blackrock Spire", "dungeon", "55-60", 22},
-	{2, 26, 0.355, 0.855, "Upper Blackrock Spire", "dungeon", "55-60", 22},
-	{2, 39, 0.67, 0.634, "Dragonmaw Retreat", "dungeon", "27-33", 3},
-	{2, 5, 0.57, 0.598, "Stormwrought Ruins", "dungeon", "35-41", 16},
-	{2, 5, 0.561, 0.846, "Stormwrought Ruins - Back Entrance", "dungeon", "35-41", 16},
-	-- Eastern Kingdoms Raids
-	{2, 26, 0.332, 0.851, "Blackwing Lair", "raid", "60", 24},
-	{2, 8, 0.273, 0.363, "Blackwing Lair", "raid", "60", 24},
-	{2, 9, 0.46, 0.70, "Lower Karazhan Halls", "raid", "58-60", 21},
-	{2, 26, 0.336, 0.879, "Molten Core", "raid", "60", 25},
-	{2, 8, 0.273, 0.387, "Molten Core", "raid", "60", 25},
-	{2, 12, 0.40, 0.28, "Naxxramas", "raid", "60", 26},
-	{2, 9, 0.442, 0.719, "Tower of Karazhan", "raid", "60", 27},
-	{2, 29, 0.53, 0.172, "Zul'Gurub", "raid", "60", 23},
-	-- Eastern Kingdoms World Bosses
-	{2, 9, 0.471, 0.751, "Dark Reaver of Karazhan", "worldboss", "60", nil},
-	{2, 11, 0.465, 0.357, "Emerald Dragon - Spawn Point 3 of 4", "worldboss", "60", nil},
-	{2, 33, 0.632, 0.217, "Emerald Dragon - Spawn Point 4 of 4", "worldboss", "60", nil},
-	{2, 7, 0.36, 0.753, "Lord Kazzak", "worldboss", "60", 7},
-	{2, 12, 0.082, 0.38, "Nerubian Overseer", "worldboss", "60", nil},
-	-- Eastern Kingdoms Transport
-	{2, 28, 0.694, 0.294, "Tram to Ironforge", "tram", "Alliance", nil},
-	{2, 19, 0.762, 0.511, "Tram to Stormwind", "tram", "Alliance", nil},
-	{2, 33, 0.812, 0.794, "Boat to Sparkwater Port", "boat", "Horde", nil},
-	{2, 39, 0.068, 0.613, "Boat to Theramore Isle", "boat", "Alliance", nil},
-	{2, 28, 0.218, 0.563, "Boat to Auberdine", "boat", "Alliance", nil},
-	{2, 29, 0.257, 0.73, "Boat to Ratchet", "boat", "Neutral", nil},
-	{2, 34, 0.616, 0.571, "Zeppelins to Orgrimmar & Grom'Gol", "zepp", "Horde", nil},
-	{2, 29, 0.312, 0.298, "Zeppelins to UC & Orgrimmar", "zepp", "Horde", nil},
-	{2, 4, 0.075, 0.480, "Zeppelin to Orgrimmar", "zepp", "Horde",  nil},
-	{2, 1, 0.531, 0.047, "Boat to Auberdine", "boat", "Alliance", nil},
+    [1] = { -- Kalimdor
+        ["Ashenvale"] = {
+            { x=0.123, y=0.128, name="Blackfathom Deeps",               type="dungeon",   info="24-32", atlas=2   },
+            { x=0.51,  y=0.78,  name="Crescent Grove",                  type="dungeon",   info="32-38", atlas=3   },
+            { x=0.937, y=0.355, name="Emerald Dragon - Spawn Point 1 of 4", type="worldboss", info="60",   atlas=nil },
+        },
+        ["Azshara"] = {
+            { x=0.535, y=0.816, name="Azuregos",  type="worldboss", info="60", atlas=nil },
+            { x=0.69,  y=0.094, name="Cla'ckora", type="worldboss", info="60", atlas=nil },
+        },
+        ["Darkshore"] = {
+            { x=0.324, y=0.44,  name="Boat to Stormwind",        type="boat", info="Alliance", atlas=nil },
+            { x=0.304, y=0.41,  name="Boat to Alah'Thalas",      type="boat", info="Alliance", atlas=nil },
+            { x=0.333, y=0.399, name="Boat to Rut'Theran Village", type="boat", info="Alliance", atlas=nil },
+        },
+        ["Desolace"] = {
+            { x=0.29, y=0.629, name="Maraudon", type="dungeon",   info="46-55", atlas=8   },
+            { x=0.82, y=0.80,  name="Concavius", type="worldboss", info="60",   atlas=nil },
+        },
+        ["Durotar"] = {
+            { x=0.512, y=0.135, name="Zeppelins to UC & Grom'Gol",   type="zepp", info="Horde", atlas=nil },
+            { x=0.415, y=0.184, name="Zeppelins to TB & Kargath",     type="zepp", info="Horde", atlas=nil },
+            { x=0.598, y=0.236, name="Boat to Revantusk Village",     type="boat", info="Horde", atlas=nil },
+        },
+        ["Dustwallow Marsh"] = {
+            { x=0.53,  y=0.76,  name="Onyxia's Lair",         type="raid", info="60",        atlas=9  },
+            { x=0.718, y=0.566, name="Boat to Menethil Harbor", type="boat", info="Alliance", atlas=nil },
+        },
+        ["Feralas"] = {
+            { x=0.648, y=0.303, name="Dire Maul - East",                  type="dungeon",   info="55-58", atlas=4   },
+            { x=0.624, y=0.249, name="Dire Maul - North",                 type="dungeon",   info="57-60", atlas=5   },
+            { x=0.604, y=0.311, name="Dire Maul - West",                  type="dungeon",   info="57-60", atlas=6   },
+            { x=0.512, y=0.108, name="Emerald Dragon - Spawn Point 2 of 4", type="worldboss", info="60",   atlas=nil },
+            { x=0.311, y=0.395, name="Boat to Forgotten Coast",           type="boat",      info="Alliance", atlas=nil },
+            { x=0.431, y=0.428, name="Boat to Sardor Isle",               type="boat",      info="Alliance", atlas=nil },
+        },
+        ["Hyjal"] = {
+            { x=0.207, y=0.592, name="Emerald Sanctum", type="raid",      info="60", atlas=7  },
+            { x=0.336, y=0.398, name="Father Lycan",    type="worldboss", info="60", atlas=nil },
+        },
+        ["Orgrimmar"] = {
+            { x=0.53, y=0.486, name="Ragefire Chasm", type="dungeon", info="13-18", atlas=10 },
+        },
+        ["Silithus"] = {
+            { x=0.296, y=0.960, name="Ruins of Ahn'Qiraj",  type="raid", info="60", atlas=13 },
+            { x=0.282, y=0.956, name="Temple of Ahn'Qiraj", type="raid", info="60", atlas=14 },
+        },
+        ["Tanaris"] = {
+            { x=0.66,  y=0.49,  name="Black Morass", type="dungeon",   info="60",    atlas=1   },
+            { x=0.389, y=0.184, name="Zul'Farrak",   type="dungeon",   info="44-54", atlas=16  },
+            { x=0.361, y=0.762, name="Ostarius",     type="worldboss", info="60",    atlas=nil },
+        },
+        ["Teldrassil"] = {
+            { x=0.552, y=0.949, name="Boat to Auberdine", type="boat", info="Alliance", atlas=nil },
+        },
+        ["The Barrens"] = {
+            { x=0.488, y=0.919, name="Razorfen Downs",  type="dungeon", info="37-46",  atlas=11   },
+            { x=0.407, y=0.873, name="Razorfen Kraul",  type="dungeon", info="29-38",  atlas=12  },
+            { x=0.462, y=0.357, name="Wailing Caverns", type="dungeon", info="17-24",  atlas=15  },
+            { x=0.636, y=0.389, name="Boat to Booty Bay", type="boat",  info="Neutral", atlas=nil },
+        },
+        ["Thunder Bluff"] = {
+            { x=0.165, y=0.230, name="Zeppelin to Orgrimmar", type="zepp", info="Horde", atlas=nil },
+        },
+    },
+    [2] = { -- Eastern Kingdoms
+        ["Alah'Thalas"] = {
+            { x=0.531, y=0.047, name="Boat to Auberdine", type="boat", info="Alliance", atlas=nil },
+        },
+        ["Badlands"] = {
+            { x=0.429, y=0.130, name="Uldaman - Main Entrance", type="dungeon", info="41-51", atlas=27  },
+            { x=0.657, y=0.438, name="Uldaman - Back Entrance", type="dungeon", info="41-51", atlas=27  },
+            { x=0.075, y=0.480, name="Zeppelin to Orgrimmar",   type="zepp",    info="Horde", atlas=nil },
+        },
+        ["Balor"] = {
+            { x=0.57,  y=0.598, name="Stormwrought Ruins",               type="dungeon", info="35-41", atlas=22 },
+            { x=0.561, y=0.846, name="Stormwrought Ruins - Back Entrance", type="dungeon", info="35-41", atlas=22 },
+        },
+        ["Blasted Lands"] = {
+            { x=0.36, y=0.753, name="Lord Kazzak", type="worldboss", info="60", atlas=7 },
+        },
+        ["Burning Steppes"] = {
+            { x=0.328, y=0.362, name="Blackrock Depths",       type="dungeon", info="52-60", atlas=1  },
+            { x=0.95,  y=0.53,  name="Hateforge Quarry",       type="dungeon", info="52-60", atlas=8  },
+            { x=0.321, y=0.386, name="Lower Blackrock Spire",  type="dungeon", info="55-60", atlas=10 },
+            { x=0.312, y=0.365, name="Upper Blackrock Spire",  type="dungeon", info="55-60", atlas=28 },
+            { x=0.273, y=0.363, name="Blackwing Lair",         type="raid",    info="60",    atlas=2 },
+            { x=0.273, y=0.387, name="Molten Core",            type="raid",    info="60",    atlas=12 },
+        },
+        ["Deadwind Pass"] = {
+            { x=0.45,  y=0.75,  name="Karazhan Crypt",          type="dungeon",   info="58-60", atlas=9   },
+            { x=0.46,  y=0.70,  name="Lower Karazhan Halls",    type="raid",      info="58-60", atlas=11  },
+            { x=0.442, y=0.719, name="Tower of Karazhan",       type="raid",      info="60",    atlas=26  },
+            { x=0.471, y=0.751, name="Dark Reaver of Karazhan", type="worldboss", info="60",    atlas=nil },
+        },
+        ["Dun Morogh"] = {
+            { x=0.248, y=0.337, name="Gnomeregan", type="dungeon", info="29-38", atlas=7 },
+        },
+        ["Duskwood"] = {
+            { x=0.465, y=0.357, name="Emerald Dragon - Spawn Point 3 of 4", type="worldboss", info="60", atlas=nil },
+        },
+        ["Eastern Plaguelands"] = {
+            { x=0.31,  y=0.14,  name="Stratholme",          type="dungeon",   info="58-60", atlas=23  },
+            { x=0.47,  y=0.24,  name="Stratholme - Back Gate", type="dungeon", info="58-60", atlas=23  },
+            { x=0.40,  y=0.28,  name="Naxxramas",           type="raid",      info="60",    atlas=13  },
+            { x=0.082, y=0.38,  name="Nerubian Overseer",   type="worldboss", info="60",    atlas=nil },
+        },
+        ["Elwynn Forest"] = {
+            { x=0.29, y=0.61, name="Stormwind Vault - Horde Entrance", type="dungeon", info="60", atlas=21 },
+        },
+        ["Gilneas"] = {
+            { x=0.30, y=0.27, name="Gilneas City", type="dungeon", info="43", atlas=6 },
+        },
+        ["Ironforge"] = {
+            { x=0.762, y=0.511, name="Tram to Stormwind", type="tram", info="Alliance", atlas=nil },
+        },
+        ["Searing Gorge"] = {
+            { x=0.371, y=0.857, name="Blackrock Depths",      type="dungeon", info="52-60", atlas=1  },
+            { x=0.364, y=0.879, name="Lower Blackrock Spire", type="dungeon", info="55-60", atlas=10 },
+            { x=0.355, y=0.855, name="Upper Blackrock Spire", type="dungeon", info="55-60", atlas=28 },
+            { x=0.332, y=0.851, name="Blackwing Lair",        type="raid",    info="60",    atlas=2 },
+            { x=0.336, y=0.879, name="Molten Core",           type="raid",    info="60",    atlas=12 },
+        },
+        ["Silverpine Forest"] = {
+            { x=0.44, y=0.67, name="Shadowfang Keep", type="dungeon", info="22-30", atlas=19 },
+        },
+        ["Stormwind City"] = {
+            { x=0.51,  y=0.675, name="The Stockade",    type="dungeon", info="24-31",    atlas=20  },
+            { x=0.63,  y=0.58,  name="Stormwind Vault", type="dungeon", info="60",       atlas=21  },
+            { x=0.694, y=0.294, name="Tram to Ironforge", type="tram",  info="Alliance", atlas=nil },
+            { x=0.218, y=0.563, name="Boat to Auberdine", type="boat",  info="Alliance", atlas=nil },
+        },
+        ["Stranglethorn Vale"] = {
+            { x=0.53,  y=0.172, name="Zul'Gurub",                   type="raid", info="60",      atlas=30  },
+            { x=0.257, y=0.73,  name="Boat to Ratchet",             type="boat", info="Neutral", atlas=nil },
+            { x=0.312, y=0.298, name="Zeppelins to UC & Orgrimmar", type="zepp", info="Horde",   atlas=nil },
+        },
+        ["Swamp of Sorrows"] = {
+            { x=0.701, y=0.55, name="The Sunken Temple", type="dungeon", info="50-60", atlas=24 },
+        },
+        ["The Hinterlands"] = {
+            { x=0.632, y=0.217, name="Emerald Dragon - Spawn Point 4 of 4", type="worldboss", info="60",   atlas=nil },
+            { x=0.812, y=0.794, name="Boat to Sparkwater Port",             type="boat",      info="Horde", atlas=nil },
+        },
+        ["Tirisfal Glades"] = {
+            { x=0.869, y=0.323, name="Scarlet Monastery - Armory",    type="dungeon", info="32-42", atlas=14  },
+            { x=0.862, y=0.295, name="Scarlet Monastery - Cathedral", type="dungeon", info="35-45", atlas=15  },
+            { x=0.839, y=0.283, name="Scarlet Monastery - Graveyard", type="dungeon", info="26-36", atlas=16 },
+            { x=0.850, y=0.338, name="Scarlet Monastery - Library",   type="dungeon", info="29-39", atlas=17 },
+            { x=0.616, y=0.571, name="Zeppelins to Orgrimmar & Grom'Gol", type="zepp", info="Horde", atlas=nil },
+        },
+        ["Western Plaguelands"] = {
+            { x=0.69, y=0.74, name="Scholomance", type="dungeon", info="58-60", atlas=18 },
+        },
+        ["Westfall"] = {
+            { x=0.423, y=0.726, name="The Deadmines", type="dungeon", info="17-24", atlas=3 },
+        },
+        ["Wetlands"] = {
+            { x=0.67,  y=0.634, name="Dragonmaw Retreat",    type="dungeon", info="27-33",    atlas=4   },
+            { x=0.068, y=0.613, name="Boat to Theramore Isle", type="boat",  info="Alliance", atlas=nil },
+        },
+    }
 }
