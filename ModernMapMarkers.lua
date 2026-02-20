@@ -1,423 +1,342 @@
-kZoneNames = {GetMapZones(1)}
-ekZoneNames = {GetMapZones(2)}
+local MMM = CreateFrame("Frame", "ModernMapMarkersCore", UIParent)
+MMM.markers = {}
+MMM.Data = {}
+MMM.ZoneMarkers = {}
+MMM.FlatDropdownData = nil
 
-local markers = {}
-local pinPool = {}
-local debug = false
+-- Filter constants
+local ALL_TYPES = { "DUNGEON", "RAID", "WORLDBOSS", "BOAT", "ZEPPELIN", "TRAM" }
 
-local config
-local masterToggle
-local dungeonRaidsToggle
-local transportToggle
-local worldBossToggle
+-- Default filters
+MMM.filters = {
+    DUNGEON   = true,
+    RAID      = true,
+    BOAT      = true,
+    ZEPPELIN  = true,
+    TRAM      = true,
+    WORLDBOSS = true,
+    FACTION   = "ALL"
+}
 
-local function print(string) 
-    DEFAULT_CHAT_FRAME:AddMessage(string) 
+-- Textures
+local TEX_BASE = "Interface\\AddOns\\ModernMapMarkers\\Textures\\"
+local TEXTURE_MAP = {
+    DUNGEON   = TEX_BASE .. "dungeon.tga",
+    RAID      = TEX_BASE .. "raid.tga",
+    BOAT      = TEX_BASE .. "boat.tga",
+    ZEPPELIN  = TEX_BASE .. "zepp.tga",
+    TRAM      = TEX_BASE .. "tram.tga",
+    WORLDBOSS = TEX_BASE .. "worldboss.tga",
+}
+
+-- Zone name cache
+local ZONE_CACHE = {}
+function MMM:CacheZones()
+    ZONE_CACHE[1] = { GetMapZones(1) } -- Kalimdor
+    ZONE_CACHE[2] = { GetMapZones(2) } -- Eastern Kingdoms
 end
 
--- Prevent the error `Interface\FrameXML\MoneyFrame.lua:185: attempt to perform arithmetic on local `money' (a nil value)`
--- Reference: https://github.com/veechs/Bagshui/blob/c70823167ae2581da7a777c073291805297cb0a2/Components/Bagshui.BlizzFixes.lua#L6
-local oldMoneyFrame_UpdateMoney = MoneyFrame_UpdateMoney
-function MoneyFrame_UpdateMoney()
-    if this.moneyType == "STATIC" and this.staticMoney == nil then
-        this.staticMoney = 0
+-- Map multi-entrance dungeons to a single zone
+local CANONICAL_ZONE = {
+    ["Blackrock Depths"]      = "Burning Steppes",
+    ["Lower Blackrock Spire"] = "Burning Steppes",
+    ["Upper Blackrock Spire"] = "Burning Steppes",
+    ["Blackwing Lair"]        = "Burning Steppes",
+    ["Molten Core"]           = "Burning Steppes",
+}
+
+-- Data Parsing
+function MMM:BuildData()
+    if self.dataBuilt then return end
+    if not ModernMapMarkers_Points then return end
+
+    MMM.Data = {}
+    MMM.ZoneMarkers = {}
+
+    local index = 1
+
+    for contID, zones in pairs(ModernMapMarkers_Points) do
+        MMM.ZoneMarkers[contID] = MMM.ZoneMarkers[contID] or {}
+
+        for zoneName, markers in pairs(zones) do
+            MMM.ZoneMarkers[contID][zoneName] = {}
+
+            for _, m in ipairs(markers) do
+                local typeUpper = string.upper(m.type or "UNKNOWN")
+                if typeUpper == "ZEPP" then typeUpper = "ZEPPELIN" end
+
+                local markerData = {
+                    continent   = contID,
+                    zoneName    = zoneName,
+                    x           = m.x,
+                    y           = m.y,
+                    name        = m.name,
+                    type        = typeUpper,
+                    description = m.info,
+                    atlasID     = m.atlas,
+                    id          = index
+                }
+
+                table.insert(MMM.Data, markerData)
+                table.insert(MMM.ZoneMarkers[contID][zoneName], markerData)
+
+                index = index + 1
+            end
+        end
     end
-    oldMoneyFrame_UpdateMoney()
+    self.dataBuilt = true
 end
 
-local function CreateMapPin(parent, x, y, size, texture, tooltipText, tooltipInfo, atlasID)
-    if debug then
-        print("Creating pin: " .. tooltipText)
-    end
-    
-    local pin = tremove(pinPool)
-    if not pin then
-        pin = CreateFrame("Button", nil, parent)
-        pin.texture = pin:CreateTexture(nil, "OVERLAY")
-        pin.texture:SetAllPoints()
-    end
+-- Get deduplicated data for dropdowns
+function ModernMapMarkers_GetFlatData()
+    MMM:BuildData()
 
-    pin:SetParent(parent)
-    pin:SetWidth(size)
-    pin:SetHeight(size)
-    pin:ClearAllPoints()
-    pin:SetPoint("CENTER", parent, "TOPLEFT", x, -y) 
-    pin.texture:SetTexture(texture)
-    pin:SetFrameLevel(parent:GetFrameLevel() + 3)
-    pin:Show()
+    if MMM.FlatDropdownData then return MMM.FlatDropdownData end
 
-    local MapTooltip
-    pin:SetScript("OnEnter", function()
-        WorldMapTooltip:SetOwner(pin, "ANCHOR_BOTTOMRIGHT", -15, 15)
-        WorldMapTooltip:SetText(tooltipText, 1, 1 ,1)
-        if tooltipInfo == "Alliance" then
-            WorldMapTooltip:AddLine(tooltipInfo, 0.145, 0.588, 0.745)
-        elseif tooltipInfo == "Horde" then
-            WorldMapTooltip:AddLine(tooltipInfo, 0.89, 0.161, 0.102)
-        elseif tooltipInfo == "Neutral" then
-            WorldMapTooltip:AddLine(tooltipInfo, 1, 1, 0)    
-        elseif tooltipInfo ~= "" then 
-            WorldMapTooltip:AddLine("Level: " .. tooltipInfo, 1,1,0)
-        end
-        WorldMapTooltip:Show()
-    end)
+    local filteredData = {}
+    local seenNames = {}
 
-    pin:SetScript("OnLeave", function()
-        WorldMapTooltip:Hide()
-    end)
+    for _, data in ipairs(MMM.Data) do
+        if data.type == "DUNGEON" or data.type == "RAID" then
+            local baseName = data.name or ""
 
-    pin:SetScript("OnClick", function() 
-        if texture == "Interface\\Addons\\ModernMapMarkers\\Textures\\worldboss.tga" then
-            return
-        end
-        
-        if atlasID ~= nil then
-            -- Check if Atlas is present
-            if AtlasFrame then
-                -- Atlas uses opposite continent IDs to the client so we need to switch them!
-                local currentContinent
-                currentContinent = GetCurrentMapContinent()
-                if currentContinent == 1 then
-                    AtlasOptions.AtlasType = 2 -- 1 is EK, 2 is Kalimdor
-                elseif currentContinent == 2 then
-                    AtlasOptions.AtlasType = 1 -- 1 is EK, 2 is Kalimdor
-                end
-                
-                AtlasOptions.AtlasZone = atlasID
-                Atlas_Refresh();
-                AtlasFrame:SetFrameStrata("FULLSCREEN")
-                AtlasFrame:Show()
-                if AtlasQuestFrame then
-                    --Automatically opens the Atlas Quest popout for the zone
-                    AtlasQuestFrame:Show()
+            -- Clean suffix
+            local dashIndex = string.find(baseName, " %- ")
+            if dashIndex then
+                baseName = string.sub(baseName, 1, dashIndex - 1)
+            end
+
+            local existingIndex = seenNames[baseName]
+            if not existingIndex then
+                -- Add new
+                local dropData = {}
+                for k, v in pairs(data) do dropData[k] = v end
+                dropData.name = baseName
+                table.insert(filteredData, dropData)
+                seenNames[baseName] = table.getn(filteredData)
+            else
+                -- Override with canonical zone if needed
+                local canon = CANONICAL_ZONE[baseName]
+                if canon and data.zoneName == canon then
+                    local dropData = {}
+                    for k, v in pairs(data) do dropData[k] = v end
+                    dropData.name = baseName
+                    filteredData[existingIndex] = dropData
                 end
             end
         end
-    end)
-    return pin
+    end
+
+    MMM.FlatDropdownData = filteredData
+    return filteredData
 end
 
-local function UpdateMarkers()
-    if not ModernMapMarkersDB.showMarkers then
-        return
-    end
-    
-    if not WorldMapFrame:IsVisible() then
-        return
-    end
-    
-    -- Make sure Atlas is installed
-    if AtlasFrame and not Atlas_CheckAddonInstalled then
-        if debug then
-            print("Atlas is installed but missing required function Atlas_CheckAddonInstalled")
-        end
-    end
+-- Drawing Logic
+function MMM:RefreshMarkers()
+    for _, marker in ipairs(self.markers) do marker:Hide() end
+    if not WorldMapFrame:IsVisible() then return end
 
-    if not ModernMapMarkers_Points then
-        return
-    end
+    self:BuildData()
 
     local currentContinent = GetCurrentMapContinent()
-    local currentZone = GetCurrentMapZone()
+    local currentZone      = GetCurrentMapZone()
 
-    for _, pin in pairs(markers) do
-        pin:Hide()
-        tinsert(pinPool, pin)
-    end
-    markers = {}
+    if currentContinent == 0 or currentZone == 0 then return end
 
-    local worldMap = WorldMapDetailFrame
-    local mapWidth, mapHeight = worldMap:GetWidth(), worldMap:GetHeight()
+    local zoneNames      = ZONE_CACHE[currentContinent]
+    local currentZoneName = zoneNames and zoneNames[currentZone]
+    if not currentZoneName then return end
 
-    for i, data in pairs(ModernMapMarkers_Points) do
-        local isMatching = false
-        local cont, zoneID, x, y, label, kind, info, atlasID = unpack(data)
-        
-        local shouldDisplay = true
-        
-        if kind == "dungeon" or kind == "raid" then
-            shouldDisplay = ModernMapMarkersDB.showDungeonRaids
-        elseif kind == "worldboss" then
-            shouldDisplay = ModernMapMarkersDB.showWorldBosses
-        elseif kind == "boat" or kind == "zepp" or kind == "tram" then
-            shouldDisplay = ModernMapMarkersDB.showTransport
-        end
-        
-        if shouldDisplay then
-            if currentZone == zoneID and currentContinent == cont then
-                isMatching = true
+    local zoneMarkers = MMM.ZoneMarkers[currentContinent] and MMM.ZoneMarkers[currentContinent][currentZoneName]
+
+    if zoneMarkers then
+        local markerIndex = 1
+        for _, data in ipairs(zoneMarkers) do
+            
+            local showMarker = (MMM.filters[data.type] == true)
+
+            -- Check faction filter
+            if showMarker and (data.type == "BOAT" or data.type == "ZEPPELIN" or data.type == "TRAM") then
+                if MMM.filters.FACTION ~= "ALL"
+                   and data.description ~= "Neutral"
+                   and data.description ~= MMM.filters.FACTION then
+                    showMarker = false
+                end
             end
 
-            if isMatching then
-                local size = 32
-                local texture = "Interface\\Addons\\ModernMapMarkers\\Textures\\POIIcons.blp"
-                
-                if kind == "raid" then
-                    texture = "Interface\\Addons\\ModernMapMarkers\\Textures\\raid.tga"
-                elseif kind == "worldboss" then
-                    texture = "Interface\\Addons\\ModernMapMarkers\\Textures\\worldboss.tga"
-                elseif kind == "zepp" then
-                    texture = "Interface\\Addons\\ModernMapMarkers\\Textures\\zepp.tga"
-                    size = 24
-                elseif kind == "boat" then
-                    texture = "Interface\\Addons\\ModernMapMarkers\\Textures\\boat.tga"
-                    size = 24
-                elseif kind == "tram" then
-                    texture = "Interface\\Addons\\ModernMapMarkers\\Textures\\tram.tga"
-                    size = 24
-                else -- Dungeon
-                    texture = "Interface\\Addons\\ModernMapMarkers\\Textures\\dungeon.tga"
+            if showMarker then
+                local marker = self:GetOrCreateMarker(markerIndex)
+
+                -- Sizing
+                if data.type == "DUNGEON" or data.type == "RAID" or data.type == "WORLDBOSS" then
+                    marker:SetWidth(32)
+                    marker:SetHeight(32)
+                else
+                    marker:SetWidth(24)
+                    marker:SetHeight(24)
                 end
 
-                local px, py = x * mapWidth, y * mapHeight
-                local pin = CreateMapPin(worldMap, px, py, size, texture, label, info, atlasID)        
+                -- Position
+                local width  = WorldMapDetailFrame:GetWidth()
+                local height = WorldMapDetailFrame:GetHeight()
+                marker:SetPoint("CENTER", WorldMapDetailFrame, "TOPLEFT", data.x * width, -data.y * height)
 
-                markers[i] = pin
+                -- Texture
+                local tex = TEXTURE_MAP[data.type] or "Interface\\Minimap\\POIIcons"
+                if marker.lastTexture ~= tex then
+                    marker.texture:SetTexture(tex)
+                    marker.lastTexture = tex
+                end
+
+                -- Metadata
+                marker.name        = data.name
+                marker.description = data.description
+                marker.markerType  = data.type
+                marker.atlasID     = data.atlasID
+                marker.continent   = data.continent
+                marker.zoneName    = data.zoneName
+
+                marker:Show()
+                markerIndex = markerIndex + 1
             end
         end
     end
 end
 
-local function CreateToggleCheckbox(parent, x, y, text, optionKey)
-    local checkbox = CreateFrame("CheckButton", nil, parent, "UICheckButtonTemplate")
-    checkbox:SetPoint("TOPLEFT", x, y)
-    checkbox:SetWidth(24)
-    checkbox:SetHeight(24)
-    
-    local label = checkbox:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-    label:SetPoint("LEFT", checkbox, "RIGHT", 5, 0)
-    label:SetText(text)
-    
-    checkbox:SetScript("OnClick", function()
-        local isChecked = checkbox:GetChecked()
-        if isChecked then
-            ModernMapMarkersDB[optionKey] = true
-        else
-            ModernMapMarkersDB[optionKey] = false
-        end
-        
-        if debug then
-            print("Checkbox " .. text .. " is now set to: " .. tostring(ModernMapMarkersDB[optionKey]))
-        end
-        UpdateMarkers()
-    end)
-    
-    return checkbox
-end
+-- AtlasTW Integration
+function MMM:OnMarkerClick(marker)
+    if marker.atlasID then
+        if AtlasTW and AtlasTWOptions then
+            -- Map Addon Continent (1=Kal, 2=EK) to Atlas ID (1=EK, 2=Kal)
+            if marker.continent == 1 then
+                AtlasTWOptions.AtlasType = 2
+            else
+                AtlasTWOptions.AtlasType = 1
+            end
 
-local function UpdateCheckboxStates()
-    if masterToggle then
-        masterToggle:SetChecked(ModernMapMarkersDB.showMarkers)
-    end
-    if dungeonRaidsToggle then
-        dungeonRaidsToggle:SetChecked(ModernMapMarkersDB.showDungeonRaids)
-    end
-    if transportToggle then
-        transportToggle:SetChecked(ModernMapMarkersDB.showTransport)
-    end
-    if worldBossToggle then
-        worldBossToggle:SetChecked(ModernMapMarkersDB.showWorldBosses)
-    end
-end
+            AtlasTWOptions.AtlasZone = marker.atlasID
 
-local function CreateConfigUI()
-    config = CreateFrame("Frame", "MMMConfigFrame", UIParent)
-    config:SetWidth(320)
-    config:SetHeight(220)
-    config:SetPoint("CENTER", UIParent, "CENTER")
-    
-    tinsert(UISpecialFrames, "MMMConfigFrame")
-    config:SetBackdrop({
-        bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background",
-        edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
-        tile = true,
-        tileSize = 32,
-        edgeSize = 32,
-        insets = {
-            left = 11,
-            right = 11,
-            top = 11,
-            bottom = 11
-        }
-    })
-    config:SetMovable(true)
-    config:EnableMouse(true)
-    config:RegisterForDrag("LeftButton")
-    config:SetScript("OnDragStart", function()
-        this:StartMoving()
-    end)
-    config:SetScript("OnDragStop", function()
-        this:StopMovingOrSizing()
-    end)
-    
-    local title = config:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
-    title:SetPoint("TOP", 0, -15)
-    title:SetText("Modern Map Markers")
-
-    local masterLabel = config:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-    masterLabel:SetPoint("TOPLEFT", 20, -45)
-    masterLabel:SetText("Enable Map Markers:")
-
-    masterToggle = CreateFrame("CheckButton", nil, config, "UICheckButtonTemplate")
-    masterToggle:SetPoint("LEFT", masterLabel, "RIGHT", 5, 0)
-    masterToggle:SetWidth(24)
-    masterToggle:SetHeight(24)
-
-    masterToggle:SetScript("OnClick", function()
-        local isChecked = masterToggle:GetChecked()
-        if isChecked then
-            ModernMapMarkersDB.showMarkers = true
-        else
-            ModernMapMarkersDB.showMarkers = false
-        end
-        
-        if ModernMapMarkersDB.showMarkers then
-            if debug then
-                print("Map Markers: Enabled")
+            if AtlasTWFrame and not AtlasTWFrame:IsVisible() then
+                AtlasTW.ToggleAtlas()
+            else
+                AtlasTW.Refresh()
             end
         else
-            if debug then
-                print("Map Markers: Disabled")
-            end
-            for _, pin in pairs(markers) do
-                pin:Hide()
-                tinsert(pinPool, pin)
-            end
-            markers = {}
+            DEFAULT_CHAT_FRAME:AddMessage("|cff7fff7fModernMapMarkers:|r Atlas-TW is not installed or enabled.")
         end
-        
-        UpdateMarkers()
-    end)
-
-    dungeonRaidsToggle = CreateToggleCheckbox(config, 20, -75, "Show Dungeons & Raids", "showDungeonRaids")
-    transportToggle = CreateToggleCheckbox(config, 20, -100, "Show Transport (Boats, Zeppelins, Trams)", "showTransport")
-    worldBossToggle = CreateToggleCheckbox(config, 20, -125, "Show World Bosses", "showWorldBosses")
-
-    local closeButton = CreateFrame("Button", nil, config, "UIPanelButtonTemplate")
-    closeButton:SetWidth(80)
-    closeButton:SetHeight(25)
-    closeButton:SetPoint("BOTTOM", 0, 15)
-    closeButton:SetText("Close")
-    closeButton:SetScript("OnClick", function()
-        config:Hide()
-    end)
-
-    config:Hide()
+    end
 end
 
-local function InitializeSavedVariables()
-    if not ModernMapMarkersDB then
-        ModernMapMarkersDB = {
-            showMarkers = true,
-            showDungeonRaids = true,
-            showTransport = true,
-            showWorldBosses = true
-        }
-        if debug then
-            print("Modern Map Markers: Created new saved variables with defaults")
+-- Marker Pool
+function MMM:GetOrCreateMarker(index)
+    if not self.markers[index] then
+        local marker = CreateFrame("Button", "ModernMapMarkerIcon"..index, WorldMapButton)
+        marker:SetWidth(24)
+        marker:SetHeight(24)
+        marker:SetFrameLevel(WorldMapButton:GetFrameLevel() + 5)
+
+        local tex = marker:CreateTexture(nil, "OVERLAY")
+        tex:SetAllPoints(marker)
+        marker.texture = tex
+
+        marker:SetScript("OnClick", function() MMM:OnMarkerClick(this) end)
+
+        marker:SetScript("OnEnter", function()
+            WorldMapTooltip:SetOwner(this, "ANCHOR_RIGHT")
+            WorldMapTooltip:AddLine(this.name, 1, 0.82, 0)
+
+            if this.description then
+                if this.markerType == "DUNGEON" or this.markerType == "RAID" or this.markerType == "WORLDBOSS" then
+                    WorldMapTooltip:AddLine("Level: " .. this.description, 1, 1, 1, 1)
+                elseif this.description == "Alliance" then
+                    WorldMapTooltip:AddLine(this.description, 0.0, 0.47, 1.0, 1)
+                elseif this.description == "Horde" then
+                    WorldMapTooltip:AddLine(this.description, 1.0, 0.0, 0.0, 1)
+                else
+                    WorldMapTooltip:AddLine(this.description, 1, 1, 1, 1)
+                end
+            end
+            WorldMapTooltip:Show()
+        end)
+
+        marker:SetScript("OnLeave", function() WorldMapTooltip:Hide() end)
+
+        self.markers[index] = marker
+    end
+    return self.markers[index]
+end
+
+-- Hooks & API
+function ModernMapMarkers_SetFilter(key, state)
+    if key == "ALL" then
+        for _, t in ipairs(ALL_TYPES) do
+            MMM.filters[t] = state
         end
     else
-        if ModernMapMarkersDB.showMarkers == nil then
-            ModernMapMarkersDB.showMarkers = true
-        end
-        if ModernMapMarkersDB.showDungeonRaids == nil then
-            ModernMapMarkersDB.showDungeonRaids = true
-        end
-        if ModernMapMarkersDB.showTransport == nil then
-            ModernMapMarkersDB.showTransport = true
-        end
-        if ModernMapMarkersDB.showWorldBosses == nil then
-            ModernMapMarkersDB.showWorldBosses = true
-        end
+        MMM.filters[key] = state
     end
-    
-    if debug then
-        print("Saved Variables Loaded:")
-        print("  showMarkers: " .. tostring(ModernMapMarkersDB.showMarkers))
-        print("  showDungeonRaids: " .. tostring(ModernMapMarkersDB.showDungeonRaids))
-        print("  showTransport: " .. tostring(ModernMapMarkersDB.showTransport))
-        print("  showWorldBosses: " .. tostring(ModernMapMarkersDB.showWorldBosses))
-    end
+    MMM:RefreshMarkers()
 end
 
-local initialized = false
+function ModernMapMarkers_SetFactionFilter(factionStr)
+    MMM.filters.FACTION = factionStr
+    MMM:RefreshMarkers()
+end
 
-local frame = CreateFrame("Frame")
+function MMM:GetZoneIndex(continentID, zoneName)
+    local zones = ZONE_CACHE[continentID] or {}
+    for i, name in ipairs(zones) do
+        if name == zoneName then return i end
+    end
+    return 0
+end
 
-frame:RegisterEvent("WORLD_MAP_UPDATE")
-frame:RegisterEvent("VARIABLES_LOADED")
-frame:RegisterEvent("ADDON_LOADED")
-frame:RegisterEvent("PLAYER_ENTERING_WORLD")
+function ModernMapMarkers_FindMarker(dataIndex)
+    MMM:BuildData()
+    local data = MMM.Data[dataIndex]
+    if not data then return end
 
-frame:SetScript("OnEvent", function()
-    if event == "ADDON_LOADED" and arg1 == "ModernMapMarkers" then
-        CreateConfigUI()
-        if debug then
-            print("Modern Map Markers: Addon Loaded, UI Created")
+    local zoneIndex = MMM:GetZoneIndex(data.continent, data.zoneName)
+    if zoneIndex > 0 then
+        SetMapZoom(data.continent, zoneIndex)
+    end
+
+    if not MMM.filters[data.type] then
+        MMM.filters[data.type] = true
+        if ModernMapMarkers_SyncFilterUI then
+            ModernMapMarkers_SyncFilterUI(data.type, true)
         end
-    elseif event == "VARIABLES_LOADED" then
-        if not initialized then
-            InitializeSavedVariables()
-            UpdateCheckboxStates()
-            initialized = true
-            
-            if debug then
-                print("Modern Map Markers: Variables Loaded and Initialized")
+    end
+
+    MMM:RefreshMarkers()
+end
+
+local original_WorldMapFrame_Update = WorldMapFrame_Update
+function WorldMapFrame_Update()
+    if original_WorldMapFrame_Update then
+        original_WorldMapFrame_Update()
+    end
+    MMM:RefreshMarkers()
+end
+
+MMM:SetScript("OnEvent", function()
+    if event == "VARIABLES_LOADED" then
+        if ModernMapMarkersDB and ModernMapMarkersDB.filters then
+            for k, v in pairs(ModernMapMarkersDB.filters) do
+                MMM.filters[k] = v
             end
         end
-    elseif event == "PLAYER_ENTERING_WORLD" then
-        if not initialized then
-            InitializeSavedVariables()
-            if not config then
-                CreateConfigUI()
-            end
-            UpdateCheckboxStates()
-            initialized = true
-        end
-        UpdateMarkers()
-    elseif event == "WORLD_MAP_UPDATE" then
-        if initialized then
-            UpdateMarkers()
+
+        MMM:CacheZones()
+        MMM:BuildData()
+        MMM:RefreshMarkers()
+
+    elseif event == "PLAYER_LOGOUT" then
+        ModernMapMarkersDB = { filters = {} }
+        for k, v in pairs(MMM.filters) do
+            ModernMapMarkersDB.filters[k] = v
         end
     end
 end)
-
-local function CreateToggleCheckbox(parent, x, y, text, optionKey)
-    local checkbox = CreateFrame("CheckButton", nil, parent, "UICheckButtonTemplate")
-    checkbox:SetPoint("TOPLEFT", x, y)
-    checkbox:SetWidth(24)
-    checkbox:SetHeight(24)
-    
-    local label = checkbox:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-    label:SetPoint("LEFT", checkbox, "RIGHT", 5, 0)
-    label:SetText(text)
-    
-    checkbox:SetScript("OnClick", function()
-        local isChecked = checkbox:GetChecked()
-        if isChecked then
-            ModernMapMarkersDB[optionKey] = true
-        else
-            ModernMapMarkersDB[optionKey] = false
-        end
-        
-        if debug then
-            print("Checkbox " .. text .. " is now set to: " .. tostring(ModernMapMarkersDB[optionKey]))
-        end
-        UpdateMarkers()
-    end)
-    
-    return checkbox
-end
-
-SLASH_MMM1 = "/mmm"
-SlashCmdList["MMM"] = function()
-    if MMMConfigFrame and MMMConfigFrame:IsVisible() then
-        MMMConfigFrame:Hide()
-    else
-        MMMConfigFrame:Show()
-    end
-end
-
-if debug then
-    DEFAULT_CHAT_FRAME:AddMessage("Modern Map Markers: Initial Load Complete")
-end
+MMM:RegisterEvent("VARIABLES_LOADED")
+MMM:RegisterEvent("PLAYER_LOGOUT")
