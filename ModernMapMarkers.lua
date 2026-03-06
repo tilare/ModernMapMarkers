@@ -100,7 +100,6 @@ function ModernMapMarkers_GetFlatData()
         if data.type == "DUNGEON" or data.type == "RAID" then
             local baseName = data.name or ""
 
-            -- Clean suffix
             local dashIndex = string.find(baseName, " %- ")
             if dashIndex then
                 baseName = string.sub(baseName, 1, dashIndex - 1)
@@ -108,14 +107,12 @@ function ModernMapMarkers_GetFlatData()
 
             local existingIndex = seenNames[baseName]
             if not existingIndex then
-                -- Add new
                 local dropData = {}
                 for k, v in pairs(data) do dropData[k] = v end
                 dropData.name = baseName
                 table.insert(filteredData, dropData)
                 seenNames[baseName] = table.getn(filteredData)
             else
-                -- Override with canonical zone if needed
                 local canon = CANONICAL_ZONE[baseName]
                 if canon and data.zoneName == canon then
                     local dropData = {}
@@ -332,7 +329,8 @@ MMM:SetScript("OnEvent", function()
         MMM:RefreshMarkers()
 
     elseif event == "PLAYER_LOGOUT" then
-        ModernMapMarkersDB = { filters = {} }
+        if not ModernMapMarkersDB then ModernMapMarkersDB = {} end
+        ModernMapMarkersDB.filters = {}
         for k, v in pairs(MMM.filters) do
             ModernMapMarkersDB.filters[k] = v
         end
