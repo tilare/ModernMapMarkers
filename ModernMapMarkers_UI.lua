@@ -19,7 +19,6 @@ function MMM_GUI.InitializeWorldMapControls()
         { label = "  Horde",      value = "Horde",     isCheck = true, checked = false, isRadio = true, group = "fac" },
     }
 
-    -- Load Saved Variables
     if ModernMapMarkersDB and ModernMapMarkersDB.filters then
         local saved = ModernMapMarkersDB.filters
         for _, item in ipairs(filterOptions) do
@@ -245,11 +244,16 @@ function MMM_GUI.InitializeWorldMapControls()
         _G.pfUI.api.SkinDropDown(filterFrame)
         _G.pfUI.api.SkinDropDown(findFrame)
     end
+    
+    -- Apply saved visibility state
+    if ModernMapMarkersDB and ModernMapMarkersDB.hideDropdowns then
+        filterFrame:Hide()
+        findFrame:Hide()
+    end
 
 end
 
 -- Debug Utilities
-
 SLASH_MMMDEBUG1 = "/mmmzones"
 SlashCmdList["MMMDEBUG"] = function()
     if not DEFAULT_CHAT_FRAME then return end
@@ -263,7 +267,34 @@ SlashCmdList["MMMDEBUG"] = function()
     end
 end
 
--- Initialize on Load
+-- Slash command to toggle dropdown visibility
+SLASH_MMM1 = "/mmm"
+SlashCmdList["MMM"] = function()
+    if type(ModernMapMarkersDB) ~= "table" then
+        ModernMapMarkersDB = { filters = {} }
+    end
+    ModernMapMarkersDB.hideDropdowns = not ModernMapMarkersDB.hideDropdowns
+    
+    local filterFrame = getglobal("ModernMapMarkersFilter_Blizz")
+    local findFrame = getglobal("ModernMapMarkersFind_Blizz")
+    
+    if filterFrame and findFrame then
+        if ModernMapMarkersDB.hideDropdowns then
+            filterFrame:Hide()
+            findFrame:Hide()
+            if DEFAULT_CHAT_FRAME then
+                DEFAULT_CHAT_FRAME:AddMessage("|cff7fff7fModern|rMapMarkers: Dropdown menus hidden.")
+            end
+        else
+            filterFrame:Show()
+            findFrame:Show()
+            if DEFAULT_CHAT_FRAME then
+                DEFAULT_CHAT_FRAME:AddMessage("|cff7fff7fModern|rMapMarkers: Dropdown menus shown.")
+            end
+        end
+    end
+end
+
 local initFrame = CreateFrame("Frame")
 initFrame:RegisterEvent("VARIABLES_LOADED")
 initFrame:SetScript("OnEvent", function()
