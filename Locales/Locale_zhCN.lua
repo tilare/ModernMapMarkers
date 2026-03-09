@@ -48,9 +48,10 @@ ModernMapMarkers_Locale:RegisterMarkers("zhCN", {
     ["Crescent Grove"]                      = "新月林地",
     ["Maraudon"]                            = "玛拉顿",
     ["Ragefire Chasm"]                      = "怒焰裂谷",
-    ["Dire Maul - East"]                    = "厄运之様 - 东",
-    ["Dire Maul - North"]                   = "厄运之様 - 北",
-    ["Dire Maul - West"]                    = "厄运之様 - 西",
+    ["Dire Maul"]                           = "厄运之槌",
+    ["Dire Maul - East"]                    = "厄运之槌 - 东",
+    ["Dire Maul - North"]                   = "厄运之槌 - 北",
+    ["Dire Maul - West"]                    = "厄运之槌 - 西",
     ["Razorfen Downs"]                      = "剃刀高地",
     ["Razorfen Kraul"]                      = "剃刀沼泽",
     ["Wailing Caverns"]                     = "哀嚎洞穴",
@@ -64,6 +65,7 @@ ModernMapMarkers_Locale:RegisterMarkers("zhCN", {
     ["Lower Blackrock Spire"]               = "黑石塔下层",
     ["Upper Blackrock Spire"]               = "黑石塔上层",
     ["Karazhan Crypt"]                      = "卡拉赞墓穴",
+    ["Scarlet Monastery"]                   = "血色修道院",
     ["Scarlet Monastery - Armory"]          = "血色修道院 - 兵器库",
     ["Scarlet Monastery - Cathedral"]       = "血色修道院 - 教堂",
     ["Scarlet Monastery - Graveyard"]       = "血色修道院 - 墓地",
@@ -79,6 +81,7 @@ ModernMapMarkers_Locale:RegisterMarkers("zhCN", {
     ["Gilneas City"]                        = "吉尔尼斯城",
     ["The Sunken Temple"]                   = "沉没的神庙",
     ["Dragonmaw Retreat"]                   = "龙喉居所",
+    ["Uldaman"]                             = "奥达曼",
     ["Uldaman - Main Entrance"]             = "奥达曼 - 主入口",
     ["Uldaman - Back Entrance"]             = "奥达曼 - 后入口",
 
@@ -95,6 +98,7 @@ ModernMapMarkers_Locale:RegisterMarkers("zhCN", {
     ["Zul'Gurub"]              = "祖尔格拉布",
 
     -- World Bosses
+    ["Emerald Dragon"]                      = "翡翠巨龙",
     ["Emerald Dragon - Spawn Point 1 of 4"] = "翡翠巨龙 - 刷新点 1/4",
     ["Emerald Dragon - Spawn Point 2 of 4"] = "翡翠巨龙 - 刷新点 2/4",
     ["Emerald Dragon - Spawn Point 3 of 4"] = "翡翠巨龙 - 刷新点 3/4",
