@@ -1,8 +1,4 @@
----
 --- Locale_zhCN.lua - Simplified Chinese Localization for ModernMapMarkers
----
---- @compatible World of Warcraft 1.12 / Lua 5.0
----
 
 ModernMapMarkers_Locale:RegisterZones("zhCN", {
     -- Continent names
