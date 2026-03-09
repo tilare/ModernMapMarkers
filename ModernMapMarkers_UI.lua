@@ -63,7 +63,7 @@ function MMM_GUI.InitializeWorldMapControls()
 
     -- Dynamic dropdown width based on longest label
     local MIN_DROPDOWN_WIDTH = 120
-    local PADDING = 35  -- space for checkbox/arrow/margins
+    local PADDING = 35
     local longestLabel = 0
 
     -- Measure filter labels
@@ -183,7 +183,6 @@ function MMM_GUI.InitializeWorldMapControls()
     UIDropDownMenu_SetText(L:GetLocalizedMarkerName("Find Marker"), findFrame)
     UIDropDownMenu_JustifyText("RIGHT", findFrame)
 
-    -- Override the dropdown button to toggle our panel instead of opening a dropdown
     if findBtn then
         findBtn:SetScript("OnClick", function()
             local panel = getglobal("ModernMapMarkersFind_Panel")
@@ -198,7 +197,6 @@ function MMM_GUI.InitializeWorldMapControls()
         end)
     end
 
-    -- Prevent the dropdown from opening normally via Initialize
     UIDropDownMenu_Initialize(findFrame, function() end)
 
     -- Find Marker Panel
@@ -224,11 +222,9 @@ function MMM_GUI.InitializeWorldMapControls()
     findPanel:SetBackdropBorderColor(0.6, 0.6, 0.6, 1)
     findPanel:Hide()
 
-    -- State
     local activeContinent = 1
     local activeType = "DUNGEON"
 
-    -- Helper: Create a selector button
     local function CreateSelectorButton(name, parent, width, text)
         local btn = CreateFrame("Button", name, parent)
         btn:SetWidth(width)
@@ -305,7 +301,7 @@ function MMM_GUI.InitializeWorldMapControls()
     scrollFrame:SetPoint("TOPLEFT", findPanel, "TOPLEFT", PANEL_PADDING, -listAreaTop)
     scrollFrame:SetPoint("BOTTOMRIGHT", findPanel, "BOTTOMRIGHT", -PANEL_PADDING - 22, PANEL_PADDING)
 
-    -- Row buttons (reusable pool)
+    -- Row buttons
     local rowButtons = {}
     for i = 1, MAX_VISIBLE_ROWS do
         local row = CreateFrame("Button", "MMMFind_Row" .. i, findPanel)
@@ -360,7 +356,6 @@ function MMM_GUI.InitializeWorldMapControls()
         return alvl < blvl
     end
 
-    -- Rebuild the filtered list and update the scroll frame
     local function RefreshFindList()
         local flatData = ModernMapMarkers_GetFlatData()
         currentList = {}
@@ -375,7 +370,6 @@ function MMM_GUI.InitializeWorldMapControls()
         local totalRows = table.getn(currentList)
         local displayRows = math.min(totalRows, MAX_VISIBLE_ROWS)
 
-        -- Resize panel to fit content
         local panelHeight = listAreaTop + (displayRows * ROW_HEIGHT) + PANEL_PADDING + 4
         if totalRows > MAX_VISIBLE_ROWS then
             panelHeight = listAreaTop + (MAX_VISIBLE_ROWS * ROW_HEIGHT) + PANEL_PADDING + 4
@@ -402,7 +396,6 @@ function MMM_GUI.InitializeWorldMapControls()
                     row.lvlText:SetText("")
                 end
 
-                -- Truncate name if it overlaps with level text
                 row.nameText:SetWidth(row:GetWidth() - row.lvlText:GetStringWidth() - 16)
 
                 row.dataID = data.id
@@ -462,20 +455,18 @@ function MMM_GUI.InitializeWorldMapControls()
         RefreshFindList()
     end)
 
-    -- UpdateFindPanel: called from the dropdown button override to refresh and show
     function UpdateFindPanel()
         UpdateButtonStates()
         RefreshFindList()
     end
 
-    -- Close panel when the world map closes (1.12-compatible hook)
+    -- Close panel when the world map closes
     local origOnHide = WorldMapFrame:GetScript("OnHide")
     WorldMapFrame:SetScript("OnHide", function()
         if origOnHide then origOnHide() end
         findPanel:Hide()
     end)
 
-    -- Set initial button states
     UpdateButtonStates()
 
     -- pfUI Skinning
@@ -554,3 +545,4 @@ initFrame:SetScript("OnEvent", function()
 end)
 
 _G.ModernMapMarkers_GUI = MMM_GUI
+
