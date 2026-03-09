@@ -102,7 +102,7 @@ ModernMapMarkers_Locale:RegisterMarkers("zhCN", {
     ["Azuregos"]               = "艾索雷葛斯",
     ["Cla'ckora"]              = "克拉科拉",
     ["Concavius"]              = "空卡维斯",
-    ["Father Lycan"]           = "狼人之父",
+    ["Father Lycan"]           = "人狼神父",
     ["Lord Kazzak"]            = "卡扎克",
     ["Ostarius"]               = "奥兹塔里亚斯",
     ["Dark Reaver of Karazhan"]  = "卡拉赞黑暗掠夺者",
