@@ -48,6 +48,7 @@ ModernMapMarkers_Locale:RegisterMarkers("esES", {
     ["Crescent Grove"]                      = "Arboleda de la Media Luna",
     ["Maraudon"]                            = "Maraudon",
     ["Ragefire Chasm"]                      = "Sima Ígnea",
+    ["Dire Maul"]                           = "La Masacre",
     ["Dire Maul - East"]                    = "La Masacre - Este",
     ["Dire Maul - North"]                   = "La Masacre - Norte",
     ["Dire Maul - West"]                    = "La Masacre - Oeste",
@@ -64,6 +65,7 @@ ModernMapMarkers_Locale:RegisterMarkers("esES", {
     ["Lower Blackrock Spire"]               = "Cumbre de Roca Negra Inferior",
     ["Upper Blackrock Spire"]               = "Cumbre de Roca Negra Superior",
     ["Karazhan Crypt"]                      = "Cripta de Karazhan",
+    ["Scarlet Monastery"]                   = "Monasterio Escarlata",
     ["Scarlet Monastery - Armory"]          = "Monasterio Escarlata - Armería",
     ["Scarlet Monastery - Cathedral"]       = "Monasterio Escarlata - Catedral",
     ["Scarlet Monastery - Graveyard"]       = "Monasterio Escarlata - Cementerio",
@@ -79,6 +81,7 @@ ModernMapMarkers_Locale:RegisterMarkers("esES", {
     ["Gilneas City"]                        = "Ciudad Gilneas",
     ["The Sunken Temple"]                   = "El Templo Sumergido",
     ["Dragonmaw Retreat"]                   = "Refugio Faucedrago",
+    ["Uldaman"]                             = "Uldaman",
     ["Uldaman - Main Entrance"]             = "Uldaman - Entrada Principal",
     ["Uldaman - Back Entrance"]             = "Uldaman - Entrada Trasera",
 
@@ -95,6 +98,7 @@ ModernMapMarkers_Locale:RegisterMarkers("esES", {
     ["Zul'Gurub"]              = "Zul'Gurub",
 
     -- World Bosses
+    ["Emerald Dragon"]                      = "Dragón Esmeralda",
     ["Emerald Dragon - Spawn Point 1 of 4"] = "Dragón Esmeralda - Punto 1 de 4",
     ["Emerald Dragon - Spawn Point 2 of 4"] = "Dragón Esmeralda - Punto 2 de 4",
     ["Emerald Dragon - Spawn Point 3 of 4"] = "Dragón Esmeralda - Punto 3 de 4",

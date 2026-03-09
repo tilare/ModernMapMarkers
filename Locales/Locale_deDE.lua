@@ -49,6 +49,7 @@ ModernMapMarkers_Locale:RegisterMarkers("deDE", {
     ["Crescent Grove"]                      = "Hain der Mondsichel",
     ["Maraudon"]                            = "Maraudon",
     ["Ragefire Chasm"]                      = "Der Flammenschlund",
+    ["Dire Maul"]                           = "Düsterbruch",
     ["Dire Maul - East"]                    = "Düsterbruch - Ost",
     ["Dire Maul - North"]                   = "Düsterbruch - Nord",
     ["Dire Maul - West"]                    = "Düsterbruch - West",
@@ -65,6 +66,7 @@ ModernMapMarkers_Locale:RegisterMarkers("deDE", {
     ["Lower Blackrock Spire"]               = "Untere Schwarzfelsspitze",
     ["Upper Blackrock Spire"]               = "Obere Schwarzfelsspitze",
     ["Karazhan Crypt"]                      = "Karazhan Krypta",
+    ["Scarlet Monastery"]                   = "Das Scharlachrote Kloster",
     ["Scarlet Monastery - Armory"]          = "Das Scharlachrote Kloster - Waffenkammer",
     ["Scarlet Monastery - Cathedral"]       = "Das Scharlachrote Kloster - Kathedrale",
     ["Scarlet Monastery - Graveyard"]       = "Das Scharlachrote Kloster - Friedhof",
@@ -80,6 +82,7 @@ ModernMapMarkers_Locale:RegisterMarkers("deDE", {
     ["Gilneas City"]                        = "Stadt von Gilneas",
     ["The Sunken Temple"]                   = "Der Versunkene Tempel",
     ["Dragonmaw Retreat"]                   = "Drachenmal Zuflucht",
+    ["Uldaman"]                             = "Uldaman",
     ["Uldaman - Main Entrance"]             = "Uldaman - Haupteingang",
     ["Uldaman - Back Entrance"]             = "Uldaman - Hintereingang",
 
@@ -96,6 +99,7 @@ ModernMapMarkers_Locale:RegisterMarkers("deDE", {
     ["Zul'Gurub"]              = "Zul'Gurub",
 
     -- World Bosses
+    ["Emerald Dragon"]                      = "Smaragddrache",
     ["Emerald Dragon - Spawn Point 1 of 4"] = "Smaragddrache - Spawnpunkt 1 von 4",
     ["Emerald Dragon - Spawn Point 2 of 4"] = "Smaragddrache - Spawnpunkt 2 von 4",
     ["Emerald Dragon - Spawn Point 3 of 4"] = "Smaragddrache - Spawnpunkt 3 von 4",
