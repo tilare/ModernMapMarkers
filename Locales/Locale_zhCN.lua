@@ -23,6 +23,7 @@ ModernMapMarkers_Locale:RegisterZones("zhCN", {
     ["Gilneas"]              = "吉尔尼斯",
     ["Hyjal"]                = "海加尔山",
     ["Ironforge"]            = "铁炉堡",
+    ["Moonwhisper Coast"]    = "月语海岸",
     ["Orgrimmar"]            = "奥格瑞玛",
     ["Searing Gorge"]        = "灼热峡谷",
     ["Silithus"]             = "希利苏斯",

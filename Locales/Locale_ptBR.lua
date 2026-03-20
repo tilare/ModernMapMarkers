@@ -23,6 +23,7 @@ ModernMapMarkers_Locale:RegisterZones("ptBR", {
     ["Gilneas"]              = "Gilneas",
     ["Hyjal"]                = "Hyjal",
     ["Ironforge"]            = "Altaforja",
+    ["Moonwhisper Coast"]    = "Costa do Sussurro da Lua",
     ["Orgrimmar"]            = "Orgrimmar",
     ["Searing Gorge"]        = "Garganta Abrasadora",
     ["Silithus"]             = "Silithus",

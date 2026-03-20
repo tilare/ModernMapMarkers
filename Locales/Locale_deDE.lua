@@ -23,6 +23,7 @@ ModernMapMarkers_Locale:RegisterZones("deDE", {
     ["Gilneas"]              = "Gilneas",
     ["Hyjal"]                = "Hyjal",
     ["Ironforge"]            = "Eisenschmiede",
+    ["Moonwhisper Coast"]    = "Mondflüsterküste",
     ["Orgrimmar"]            = "Orgrimmar",
     ["Searing Gorge"]        = "Sengende Schlucht",
     ["Silithus"]             = "Silithus",

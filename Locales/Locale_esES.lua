@@ -23,6 +23,7 @@ ModernMapMarkers_Locale:RegisterZones("esES", {
     ["Gilneas"]              = "Gilneas",
     ["Hyjal"]                = "Hyjal",
     ["Ironforge"]            = "Forjaz",
+    ["Moonwhisper Coast"]    = "Costa del Susurro de Luna",
     ["Orgrimmar"]            = "Orgrimmar",
     ["Searing Gorge"]        = "La Garganta de Fuego",
     ["Silithus"]             = "Silithus",
