@@ -13,6 +13,8 @@ Now supports esES, deDE, ptBR, and zhCN clients. Please feel free to submit any 
 
 **Filter Markers –** Filter marker types within the dropdown UI on the world map, and use **/mmm** to toggle the visibility of the dropdown menus. 
 
+**pfUI Integration -** The dropdown menus are skinned when pfUI is detected and repositions the dropdowns when pfQuest is detected. 
+
 ## Recommended Addon
 **InstanceJournal –** Use ModernMapMarkers with [InstanceJournal](https://github.com/Arthur-Helias/InstanceJournal) for the best experience.
 
