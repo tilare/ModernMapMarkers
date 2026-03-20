@@ -84,6 +84,8 @@ ModernMapMarkers_Locale:RegisterMarkers("esES", {
     ["Uldaman"]                             = "Uldaman",
     ["Uldaman - Main Entrance"]             = "Uldaman - Entrada Principal",
     ["Uldaman - Back Entrance"]             = "Uldaman - Entrada Trasera",
+    ["Frostmane Hollow"]                    = "Frostmane Hollow",
+    ["Windhorn Canyon"]                     = "Windhorn Canyon",
 
     -- Raids
     ["Onyxia's Lair"]          = "Guarida de Onyxia",
@@ -96,13 +98,13 @@ ModernMapMarkers_Locale:RegisterMarkers("esES", {
     ["Tower of Karazhan"]      = "Torre de Karazhan",
     ["Naxxramas"]              = "Naxxramas",
     ["Zul'Gurub"]              = "Zul'Gurub",
+    ["Timbermaw Hold"]         = "Timbermaw Hold",
 
     -- World Bosses
-    ["Emerald Dragon"]                      = "Dragón Esmeralda",
-    ["Emerald Dragon - Spawn Point 1 of 4"] = "Dragón Esmeralda - Punto 1 de 4",
-    ["Emerald Dragon - Spawn Point 2 of 4"] = "Dragón Esmeralda - Punto 2 de 4",
-    ["Emerald Dragon - Spawn Point 3 of 4"] = "Dragón Esmeralda - Punto 3 de 4",
-    ["Emerald Dragon - Spawn Point 4 of 4"] = "Dragón Esmeralda - Punto 4 de 4",
+    ["Taerar"]                 = "Taerar",
+    ["Lethon"]                 = "Lethon",
+    ["Emeriss"]                = "Emeriss",
+    ["Ysondre"]                = "Ysondre",
     ["Azuregos"]               = "Azuregos",
     ["Cla'ckora"]              = "Cla'ckora",
     ["Concavius"]              = "Concavius",
@@ -153,8 +155,11 @@ ModernMapMarkers_Locale:RegisterMarkers("esES", {
     ["Filter Markers"]     = "Filtrar Marcadores",
     ["Find Marker"]        = "Buscar Marcador",
 
+    -- InstanceJournal tooltips
+    ["Left-Click: View Map"] = "Clic izquierdo: Ver mapa",
+    ["Right-Click: Instance Journal"] = "Clic derecho: Diario de Instancia",
+
     -- Chat messages
-    ["Atlas-TW is not installed or enabled."] = "Atlas-TW no está instalado o habilitado.",
     ["Dropdown menus hidden."] = "Menús desplegables ocultos.",
     ["Dropdown menus shown."] = "Menús desplegables mostrados.",
 })

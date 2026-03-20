@@ -84,6 +84,8 @@ ModernMapMarkers_Locale:RegisterMarkers("ptBR", {
     ["Uldaman"]                             = "Uldaman",
     ["Uldaman - Main Entrance"]             = "Uldaman - Entrada Principal",
     ["Uldaman - Back Entrance"]             = "Uldaman - Entrada Traseira",
+    ["Frostmane Hollow"]                    = "Frostmane Hollow",
+    ["Windhorn Canyon"]                     = "Windhorn Canyon",
 
     -- Raids
     ["Onyxia's Lair"]          = "Caverna de Onyxia",
@@ -96,13 +98,13 @@ ModernMapMarkers_Locale:RegisterMarkers("ptBR", {
     ["Tower of Karazhan"]      = "Torre de Karazhan",
     ["Naxxramas"]              = "Naxxramas",
     ["Zul'Gurub"]              = "Zul'Gurub",
+    ["Timbermaw Hold"]         = "Timbermaw Hold",
 
     -- World Bosses
-    ["Emerald Dragon"]                      = "Dragão Esmeralda",
-    ["Emerald Dragon - Spawn Point 1 of 4"] = "Dragão Esmeralda - Ponto 1 de 4",
-    ["Emerald Dragon - Spawn Point 2 of 4"] = "Dragão Esmeralda - Ponto 2 de 4",
-    ["Emerald Dragon - Spawn Point 3 of 4"] = "Dragão Esmeralda - Ponto 3 de 4",
-    ["Emerald Dragon - Spawn Point 4 of 4"] = "Dragão Esmeralda - Ponto 4 de 4",
+    ["Taerar"]                 = "Taerar",
+    ["Lethon"]                 = "Lethon",
+    ["Emeriss"]                = "Emeriss",
+    ["Ysondre"]                = "Ysondre",
     ["Azuregos"]               = "Azuregos",
     ["Cla'ckora"]              = "Cla'ckora",
     ["Concavius"]              = "Concavius",
@@ -153,8 +155,11 @@ ModernMapMarkers_Locale:RegisterMarkers("ptBR", {
     ["Filter Markers"]     = "Filtrar Marcadores",
     ["Find Marker"]        = "Buscar Marcador",
 
+    -- InstanceJournal tooltips
+    ["Left-Click: View Map"] = "Clique esquerdo: Ver mapa",
+    ["Right-Click: Instance Journal"] = "Clique direito: Diário de Instância",
+
     -- Chat messages
-    ["Atlas-TW is not installed or enabled."] = "Atlas-TW não está instalado ou habilitado.",
     ["Dropdown menus hidden."] = "Menus suspensos ocultados.",
     ["Dropdown menus shown."] = "Menus suspensos exibidos.",
 })

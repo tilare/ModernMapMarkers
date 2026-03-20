@@ -2,8 +2,8 @@
 ## Title: |cff7fff7fModern|rMapMarkers
 ## Author: tilr & Heallios
 ## Notes: Shows dungeon, raid, world boss, boat, zeppelin, and tram locations on the world map
-## Version: 2.2
-## OptionalDeps: Atlas-TW, pfUI, pfQuest
+## Version: 2.3
+## OptionalDeps: pfUI, pfQuest, InstanceJournal
 ## SavedVariables: ModernMapMarkersDB
 
 Localization.lua

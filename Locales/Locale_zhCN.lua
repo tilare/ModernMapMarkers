@@ -84,6 +84,8 @@ ModernMapMarkers_Locale:RegisterMarkers("zhCN", {
     ["Uldaman"]                             = "奥达曼",
     ["Uldaman - Main Entrance"]             = "奥达曼 - 主入口",
     ["Uldaman - Back Entrance"]             = "奥达曼 - 后入口",
+    ["Frostmane Hollow"]                    = "Frostmane Hollow",
+    ["Windhorn Canyon"]                     = "Windhorn Canyon",
 
     -- Raids
     ["Onyxia's Lair"]          = "奥妮克希亚的巢穴",
@@ -96,13 +98,13 @@ ModernMapMarkers_Locale:RegisterMarkers("zhCN", {
     ["Tower of Karazhan"]      = "卡拉赞之塔",
     ["Naxxramas"]              = "纳克萨玛斯",
     ["Zul'Gurub"]              = "祖尔格拉布",
+    ["Timbermaw Hold"]         = "Timbermaw Hold",
 
     -- World Bosses
-    ["Emerald Dragon"]                      = "翡翠巨龙",
-    ["Emerald Dragon - Spawn Point 1 of 4"] = "翡翠巨龙 - 刷新点 1/4",
-    ["Emerald Dragon - Spawn Point 2 of 4"] = "翡翠巨龙 - 刷新点 2/4",
-    ["Emerald Dragon - Spawn Point 3 of 4"] = "翡翠巨龙 - 刷新点 3/4",
-    ["Emerald Dragon - Spawn Point 4 of 4"] = "翡翠巨龙 - 刷新点 4/4",
+    ["Taerar"]                 = "塔拉尔",
+    ["Lethon"]                 = "莱索恩",
+    ["Emeriss"]                = "艾莫莉丝",
+    ["Ysondre"]                = "伊森德雷",
     ["Azuregos"]               = "艾索雷葛斯",
     ["Cla'ckora"]              = "克拉科拉",
     ["Concavius"]              = "空卡维斯",
@@ -153,8 +155,11 @@ ModernMapMarkers_Locale:RegisterMarkers("zhCN", {
     ["Filter Markers"]     = "筛选标记",
     ["Find Marker"]        = "查找标记",
 
+    -- InstanceJournal tooltips
+    ["Left-Click: View Map"] = "左键点击：查看地图",
+    ["Right-Click: Instance Journal"] = "右键点击：副本手册",
+
     -- Chat messages
-    ["Atlas-TW is not installed or enabled."] = "Atlas-TW 未安装或未启用。",
     ["Dropdown menus hidden."] = "下拉菜单已隐藏。",
     ["Dropdown menus shown."] = "下拉菜单已显示。",
 })

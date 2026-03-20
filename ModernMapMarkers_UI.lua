@@ -545,4 +545,3 @@ initFrame:SetScript("OnEvent", function()
 end)
 
 _G.ModernMapMarkers_GUI = MMM_GUI
-

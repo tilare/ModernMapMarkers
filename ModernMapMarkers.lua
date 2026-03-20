@@ -3,12 +3,83 @@ MMM.markers = {}
 MMM.Data = {}
 MMM.ZoneMarkers = {}
 MMM.FlatDropdownData = nil
+MMM.ijInstalled = false
 
 -- Localization shorthand
 local L = ModernMapMarkers_Locale
 
 -- Filter constants
 local ALL_TYPES = { "DUNGEON", "RAID", "WORLDBOSS", "BOAT", "ZEPPELIN", "TRAM" }
+
+-- InstanceJournal Integration
+-- MMM markers to hide when IJ is installed (covered by IJ POI entrances)
+local IJ_HIDDEN_MARKERS = {
+    ["Blackrock Depths"]               = true,
+    ["Lower Blackrock Spire"]          = true,
+    ["Upper Blackrock Spire"]          = true,
+    ["Blackwing Lair"]                 = true,
+    ["Molten Core"]                     = true,
+    ["Dire Maul - East"]               = true,
+    ["Dire Maul - North"]              = true,
+    ["Dire Maul - West"]               = true,
+    ["Black Morass"]                    = true,
+    ["The Deadmines"]                   = true,
+    ["Temple of Ahn'Qiraj"]            = true,
+    ["Ruins of Ahn'Qiraj"]             = true,
+    ["Gnomeregan"]                      = true,
+    ["Maraudon"]                        = true,
+    ["Scarlet Monastery - Armory"]      = true,
+    ["Scarlet Monastery - Cathedral"]   = true,
+    ["Scarlet Monastery - Graveyard"]   = true,
+    ["Scarlet Monastery - Library"]     = true,
+    ["Uldaman - Main Entrance"]         = true,
+    ["Uldaman - Back Entrance"]         = true,
+    ["Wailing Caverns"]                 = true,
+    ["Windhorn Canyon"]                  = true,
+    ["Timbermaw Hold"]                   = true,
+}
+
+-- Map MMM marker names to IJ database keys for click behavior
+-- { db = "DG" or "R", key = IJDB key }
+local MMM_TO_IJ = {
+    -- Dungeons
+    ["Blackfathom Deeps"]                   = { db = "DG", key = "BFD" },
+    ["Crescent Grove"]                      = { db = "DG", key = "CG" },
+    ["Ragefire Chasm"]                      = { db = "DG", key = "RFC" },
+    ["Razorfen Downs"]                      = { db = "DG", key = "RFD" },
+    ["Razorfen Kraul"]                      = { db = "DG", key = "RFK" },
+    ["Zul'Farrak"]                          = { db = "DG", key = "ZF" },
+    ["Shadowfang Keep"]                     = { db = "DG", key = "SFK" },
+    ["The Stockade"]                        = { db = "DG", key = "STOCKADES" },
+    ["Stormwind Vault"]                     = { db = "DG", key = "SV" },
+    ["Stormwind Vault - Horde Entrance"]    = { db = "DG", key = "SV" },
+    ["Stratholme"]                          = { db = "DG", key = "STRAT" },
+    ["Stratholme - Back Gate"]              = { db = "DG", key = "STRAT" },
+    ["Scholomance"]                         = { db = "DG", key = "SCHOLO" },
+    ["The Sunken Temple"]                   = { db = "DG", key = "ST" },
+    ["Hateforge Quarry"]                    = { db = "DG", key = "HQ" },
+    ["Dragonmaw Retreat"]                   = { db = "DG", key = "DMR" },
+    ["Karazhan Crypt"]                      = { db = "DG", key = "KC" },
+    ["Lower Blackrock Spire"]              = { db = "DG", key = "LBRS" },
+    ["Upper Blackrock Spire"]              = { db = "DG", key = "UBRS" },
+    ["Gilneas City"]                        = { db = "DG", key = "GC" },
+    ["Stormwrought Ruins"]                  = { db = "DG", key = "SWR" },
+    ["Stormwrought Ruins - Back Entrance"]  = { db = "DG", key = "SWR" },
+    ["Frostmane Hollow"]                    = { db = "DG", key = "FH" },
+    ["Windhorn Canyon"]                     = { db = "DG", key = "WHC" },
+    -- Raids
+    ["Onyxia's Lair"]                       = { db = "R", key = "ONY" },
+    ["Emerald Sanctum"]                     = { db = "R", key = "ES" },
+    ["Lower Karazhan Halls"]                = { db = "R", key = "KARA10" },
+    ["Blackwing Lair"]                      = { db = "R", key = "BWL" },
+    ["Tower of Karazhan"]                   = { db = "R", key = "KARA40" },
+    ["Naxxramas"]                           = { db = "R", key = "NAXX" },
+    ["Zul'Gurub"]                           = { db = "R", key = "ZG" },
+    ["Timbermaw Hold"]                      = { db = "R", key = "TH" },
+}
+
+-- Keep POI submap zone markers
+local IJ_SUBMAP_ZONES = {}
 
 -- Default filters
 MMM.filters = {
@@ -35,6 +106,10 @@ local TEXTURE_MAP = {
     ZEPPELIN  = TEX_BASE .. "zepp.tga",
     TRAM      = TEX_BASE .. "tram.tga",
     WORLDBOSS = TEX_BASE .. "worldboss.tga",
+}
+local HIGHLIGHT_MAP = {
+    DUNGEON   = TEX_BASE .. "dungeon-highlight.tga",
+    RAID      = TEX_BASE .. "raid-highlight.tga",
 }
 
 -- Zone name cache
@@ -82,7 +157,6 @@ function MMM:BuildData()
                     name        = m.name,
                     type        = typeUpper,
                     description = m.info,
-                    atlasID     = m.atlas,
                     id          = index
                 }
 
@@ -178,8 +252,17 @@ function MMM:RefreshMarkers()
 
     if zoneMarkers then
         for _, data in ipairs(zoneMarkers) do
-            
+
             local showMarker = (MMM.filters[data.type] == true)
+
+            -- Hide markers replaced by InstanceJournal
+            if showMarker and MMM.ijInstalled then
+                if data.type == "WORLDBOSS" then
+                    showMarker = false
+                elseif IJ_HIDDEN_MARKERS[data.name] then
+                    showMarker = false
+                end
+            end
 
             -- Check faction filter
             if showMarker and (data.type == "BOAT" or data.type == "ZEPPELIN" or data.type == "TRAM") then
@@ -215,11 +298,21 @@ function MMM:RefreshMarkers()
                     marker.lastTexture = tex
                 end
 
+                local hlTex = HIGHLIGHT_MAP[data.type]
+                if marker.lastHighlight ~= hlTex then
+                    if hlTex then
+                        marker:SetHighlightTexture(hlTex)
+                    elseif marker.lastHighlight then
+                        marker:SetHighlightTexture("")
+                    end
+                    marker.lastHighlight = hlTex
+                end
+
                 -- Metadata
                 marker.name        = L:GetLocalizedMarkerName(data.name)
+                marker.nameEN      = data.name
                 marker.description = data.description
                 marker.markerType  = data.type
-                marker.atlasID     = data.atlasID
                 marker.continent   = data.continent
                 marker.zoneName    = data.zoneName
 
@@ -251,27 +344,40 @@ function MMM:InvalidateCache()
     forceRefresh = true
 end
 
--- AtlasTW Integration
-function MMM:OnMarkerClick(marker)
-    if marker.atlasID then
-        if AtlasTW and AtlasTWOptions then
-            -- Map Addon Continent (1=Kal, 2=EK) to Atlas ID (1=EK, 2=Kal)
-            if marker.continent == 1 then
-                AtlasTWOptions.AtlasType = 2
-            else
-                AtlasTWOptions.AtlasType = 1
-            end
+-- Get IJ instance from MMM marker English name
+function MMM:GetIJInstance(nameEN)
+    if not MMM.ijInstalled or not nameEN then return nil end
+    local mapping = MMM_TO_IJ[nameEN]
+    if not mapping then return nil end
+    local dbTable = (mapping.db == "R") and IJDB.R or IJDB.DG
+    if not dbTable then return nil end
+    return dbTable[mapping.key]
+end
 
-            AtlasTWOptions.AtlasZone = marker.atlasID
+-- InstanceJournal Integration
+function MMM:OnMarkerClick(marker, button)
+    if not MMM.ijInstalled then return end
 
-            if AtlasTWFrame and not AtlasTWFrame:IsVisible() then
-                AtlasTW.ToggleAtlas()
-            else
-                AtlasTW.Refresh()
-            end
-        else
-            DEFAULT_CHAT_FRAME:AddMessage("|cff7fff7fModernMapMarkers:|r " .. L:GetLocalizedMarkerName("Atlas-TW is not installed or enabled."))
+    local instance = MMM:GetIJInstance(marker.nameEN)
+    if not instance then return end
+
+    if button == "RightButton" then
+        -- Right-click: open IJ journal page
+        if not IJ_InstanceJournalFrame:IsShown() then
+            IJ_InstanceJournalFrame:Show()
         end
+        if instance.Type == IJLib.InstanceType.Raid then
+            IJ_ShowRaids = true
+            PanelTemplates_SetTab(IJ_InstanceJournalFrame, 2)
+        else
+            IJ_ShowRaids = false
+            PanelTemplates_SetTab(IJ_InstanceJournalFrame, 1)
+        end
+        IJ_ShowEncounter(instance)
+        WorldMapFrame:Hide()
+    else
+        -- Left-click: navigate to instance submap
+        SetMapZoom(tonumber(instance.MapId), 1)
     end
 end
 
@@ -287,7 +393,8 @@ function MMM:GetOrCreateMarker(index)
         tex:SetAllPoints(marker)
         marker.texture = tex
 
-        marker:SetScript("OnClick", function() MMM:OnMarkerClick(this) end)
+        marker:RegisterForClicks("LeftButtonUp", "RightButtonUp")
+        marker:SetScript("OnClick", function() MMM:OnMarkerClick(this, arg1) end)
 
         marker:SetScript("OnEnter", function()
             WorldMapTooltip:SetOwner(this, "ANCHOR_RIGHT")
@@ -305,6 +412,13 @@ function MMM:GetOrCreateMarker(index)
                     WorldMapTooltip:AddLine(L:GetLocalizedMarkerName(this.description), 1, 1, 1, 1)
                 end
             end
+
+            -- IJ tooltips for dungeon/raid markers
+            if MMM.ijInstalled and MMM:GetIJInstance(this.nameEN) then
+                WorldMapTooltip:AddLine(L:GetLocalizedMarkerName("Left-Click: View Map"), 0.5, 0.5, 0.5)
+                WorldMapTooltip:AddLine(L:GetLocalizedMarkerName("Right-Click: Instance Journal"), 0.5, 0.5, 0.5)
+            end
+
             WorldMapTooltip:Show()
         end)
 
@@ -394,6 +508,137 @@ MMM:SetScript("OnEvent", function()
         L:Initialize()
         MMM:CacheZones()
         MMM:BuildData()
+
+        -- Detect InstanceJournal
+        if IJDB and IJLib and IJ_ShowInstanceEntrancesIcon then
+            MMM.ijInstalled = true
+
+            -- Build POI submap zone lookup
+            if IJDB.POI then
+                for _, poi in pairs(IJDB.POI) do
+                    if poi.MapContinentId and poi.MapZoneId then
+                        local key = tostring(poi.MapContinentId) .. ":" .. tostring(poi.MapZoneId)
+                        IJ_SUBMAP_ZONES[key] = true
+                    end
+                end
+            end
+
+            -- Also include instance entrance locations inside other instance maps
+            -- (e.g., Molten Core entrance inside BRD submap)
+            local instanceMapIds = {}
+            local allInstances = {}
+            for _, inst in pairs(IJDB.DG or {}) do
+                if inst.MapId then instanceMapIds[tostring(inst.MapId)] = true end
+                table.insert(allInstances, inst)
+            end
+            for _, inst in pairs(IJDB.R or {}) do
+                if inst.MapId then instanceMapIds[tostring(inst.MapId)] = true end
+                table.insert(allInstances, inst)
+            end
+            for _, inst in ipairs(allInstances) do
+                if inst.Entrances then
+                    for _, ent in pairs(inst.Entrances) do
+                        if ent.MapContinentId and ent.MapZoneId
+                           and instanceMapIds[tostring(ent.MapContinentId)] then
+                            local key = tostring(ent.MapContinentId) .. ":" .. tostring(ent.MapZoneId)
+                            IJ_SUBMAP_ZONES[key] = true
+                        end
+                    end
+                end
+            end
+
+            -- Hook IJ entrance markers: hide on world zones, keep in POI submaps
+            -- In submaps, reskin entrance pins with MMM dungeon/raid textures
+            local original_ShowEntrance = IJ_ShowInstanceEntrancesIcon
+            IJ_ShowInstanceEntrancesIcon = function(instance)
+                local key = tostring(GetCurrentMapContinent()) .. ":" .. tostring(GetCurrentMapZone())
+                if IJ_SUBMAP_ZONES[key] then
+                    original_ShowEntrance(instance)
+
+                    -- Determine marker type and apply MMM filter
+                    local isRaid = instance.Type == IJLib.InstanceType.Raid
+                    local filterKey = isRaid and "RAID" or "DUNGEON"
+                    local mmmTex = isRaid and TEXTURE_MAP.RAID or TEXTURE_MAP.DUNGEON
+
+                    local cleanName = string.gsub(instance.Name or "", "%s+", "")
+                    local prefix = "IJ_EntrancePin_" .. cleanName
+
+                    for _, pin in ipairs(IJ_CreatedMapInstanceEntrance) do
+                        local pinName = pin:GetName() or ""
+                        if string.find(pinName, prefix, 1, true) and pin:IsVisible() then
+                            -- Hide pin if MMM filter is disabled for this type
+                            if not MMM.filters[filterKey] then
+                                pin:Hide()
+                            end
+                            pin.icon:SetTexture(mmmTex)
+                            pin.mmmInstance = instance
+
+                            if not pin.mmmReskinned then
+                                pin.mmmReskinned = true
+                                pin.mmmTexture = mmmTex
+
+                                local mmmHL = instance.Type == IJLib.InstanceType.Raid and HIGHLIGHT_MAP.RAID or HIGHLIGHT_MAP.DUNGEON
+                                if mmmHL then
+                                    pin:SetHighlightTexture(mmmHL)
+                                end
+
+                                local origOnEnter = pin:GetScript("OnEnter")
+                                local origOnLeave = pin:GetScript("OnLeave")
+
+                                pin:SetScript("OnEnter", function()
+                                    if origOnEnter then origOnEnter() end
+                                    this.icon:SetTexture(this.mmmTexture)
+
+                                    -- MMM tooltip for IJ POI submap markers
+                                    local inst = this.mmmInstance
+                                    if inst then
+                                        WorldMapTooltip:SetOwner(this, "ANCHOR_RIGHT")
+                                        WorldMapTooltip:AddLine(inst.Name or "", 1, 0.82, 0)
+                                        local minLvl = inst.MinLevel or 0
+                                        local maxLvl = inst.MaxLevel or 0
+                                        local lvlLabel = L:GetLocalizedMarkerName("Level") or "Level"
+                                        WorldMapTooltip:AddLine(lvlLabel .. ": " .. minLvl .. "-" .. maxLvl, 1, 1, 1, 1)
+                                        WorldMapTooltip:AddLine(L:GetLocalizedMarkerName("Left-Click: View Map"), 0.5, 0.5, 0.5)
+                                        WorldMapTooltip:AddLine(L:GetLocalizedMarkerName("Right-Click: Instance Journal"), 0.5, 0.5, 0.5)
+                                        WorldMapTooltip:Show()
+                                    end
+                                end)
+
+                                pin:SetScript("OnLeave", function()
+                                    if origOnLeave then origOnLeave() end
+                                    this.icon:SetTexture(this.mmmTexture)
+                                    WorldMapTooltip:Hide()
+                                end)
+
+                                -- Right click for IJ journal
+                                pin:RegisterForClicks("LeftButtonUp", "RightButtonUp")
+                                local origOnClick = pin:GetScript("OnClick")
+                                pin:SetScript("OnClick", function()
+                                    if arg1 == "RightButton" and this.mmmInstance then
+                                        local inst = this.mmmInstance
+                                        if not IJ_InstanceJournalFrame:IsShown() then
+                                            IJ_InstanceJournalFrame:Show()
+                                        end
+                                        if inst.Type == IJLib.InstanceType.Raid then
+                                            IJ_ShowRaids = true
+                                            PanelTemplates_SetTab(IJ_InstanceJournalFrame, 2)
+                                        else
+                                            IJ_ShowRaids = false
+                                            PanelTemplates_SetTab(IJ_InstanceJournalFrame, 1)
+                                        end
+                                        IJ_ShowEncounter(inst)
+                                        WorldMapFrame:Hide()
+                                    else
+                                        if origOnClick then origOnClick() end
+                                    end
+                                end)
+                            end
+                        end
+                    end
+                end
+            end
+        end
+
         MMM:InvalidateCache()
         MMM:RefreshMarkers()
 
