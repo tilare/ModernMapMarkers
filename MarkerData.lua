@@ -43,6 +43,9 @@ ModernMapMarkers_Points = {
             { x=0.207, y=0.592, name="Emerald Sanctum", type="raid",      info="60" },
             { x=0.336, y=0.398, name="Father Lycan",    type="worldboss", info="60" },
         },
+        ["Moonwhisper Coast"] = {
+            { x=0.506,   y=0.959,   name="Timbermaw Hold", type="raid", info="60" },
+        },
         ["Orgrimmar"] = {
             { x=0.53, y=0.486, name="Ragefire Chasm", type="dungeon", info="13-18" },
         },
@@ -59,7 +62,7 @@ ModernMapMarkers_Points = {
             { x=0.552, y=0.949, name="Boat to Auberdine", type="boat", info="Alliance" },
         },
         ["Thousand Needles"] = {
-            { x=0.999, y=0.999, name="Windhorn Canyon", type="dungeon", info="26-30" },
+            { x=0.648, y=0.460, name="Windhorn Canyon", type="dungeon", info="26-30" },
         },
         ["The Barrens"] = {
             { x=0.488, y=0.919, name="Razorfen Downs",  type="dungeon", info="37-46" },
@@ -103,7 +106,7 @@ ModernMapMarkers_Points = {
         },
         ["Dun Morogh"] = {
             { x=0.248, y=0.337, name="Gnomeregan", type="dungeon", info="29-38" },
-            { x=0.999,   y=0.999,   name="Frostmane Hollow", type="dungeon", info="13-20" },
+            { x=0.669,   y=0.402,   name="Frostmane Hollow", type="dungeon", info="13-20" },
         },
         ["Duskwood"] = {
             { x=0.465, y=0.357, name="Emeriss", type="worldboss", info="60" },
