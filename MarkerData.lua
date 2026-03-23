@@ -21,6 +21,7 @@ ModernMapMarkers_Points = {
         ["Desolace"] = {
             { x=0.29, y=0.629, name="Maraudon", type="dungeon",   info="46-55" },
             { x=0.82, y=0.80,  name="Concavius", type="worldboss", info="60" },
+            { x=0.205, y=0.75, name="Boat to Moonhoof Village", type="boat", info="Horde" },
         },
         ["Durotar"] = {
             { x=0.512, y=0.135, name="Zeppelins to UC & Grom'Gol",   type="zepp", info="Horde" },
@@ -45,6 +46,7 @@ ModernMapMarkers_Points = {
         },
         ["Moonwhisper Coast"] = {
             { x=0.506,   y=0.959,   name="Timbermaw Hold", type="raid", info="60" },
+            { x=0.71, y=0.38, name="Boat to Shadowprey Village", type="boat", info="Horde" },
         },
         ["Orgrimmar"] = {
             { x=0.53, y=0.486, name="Ragefire Chasm", type="dungeon", info="13-18" },
