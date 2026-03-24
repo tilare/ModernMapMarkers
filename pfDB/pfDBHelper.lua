@@ -16,7 +16,7 @@ function MMM_PfDBHelper:Print(msg)
     DEFAULT_CHAT_FRAME:AddMessage("MMM_PfDBHelper: " .. tostring(msg))
 end
 
-function ensureZonesLookupTable(locale)
+local function ensureZonesLookupTable(locale)
     zones_by_name = {[locale .. "-turtle"] = {}, [locale] = {}}
     if MMM_pfDB["zones"][locale] then
         for id, name in pairs(MMM_pfDB["zones"][locale]) do
@@ -30,7 +30,7 @@ function ensureZonesLookupTable(locale)
     end
 end
 
-function ensureUnitsLookupTable(locale)
+local function ensureUnitsLookupTable(locale)
     units_by_name = {[locale .. "-turtle"] = {}, [locale] = {}}
     if MMM_pfDB["units"][locale] then
         for id, name in pairs(MMM_pfDB["units"][locale]) do
