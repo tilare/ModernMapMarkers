@@ -58,7 +58,7 @@ ModernMapMarkers_Points = {
             { x=0.282, y=0.956, name="Ahn'Qiraj", type="raid", info="60" },
         },
         ["Tanaris"] = {
-            { x=0.66,  y=0.49,  name="Black Morass", type="dungeon",   info="60" },
+            { x=0.66,  y=0.49,  name="The Black Morass", type="dungeon",   info="60" },
             { x=0.389, y=0.184, name="Zul'Farrak",   type="dungeon",   info="44-54" },
             { x=0.361, y=0.762, name="Ostarius",     type="worldboss", info="60" },
         },
