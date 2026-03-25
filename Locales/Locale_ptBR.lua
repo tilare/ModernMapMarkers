@@ -1,6 +1,6 @@
 --- Locale_ptBR.lua - Portuguese (Brazil) Localization for ModernMapMarkers
 
-ModernMapMarkers_Locale:RegisterMarkers("ptBR", {
+ModernMapMarkers_Locale:RegisterDictionary("ptBR", {
     ["Kalimdor"]             = "Kalimdor",
     ["Eastern Kingdoms"]     = "Reinos do Leste",
     -- Dungeon masks

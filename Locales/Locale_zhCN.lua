@@ -1,6 +1,6 @@
 --- Locale_zhCN.lua - Simplified Chinese Localization for ModernMapMarkers
 
-ModernMapMarkers_Locale:RegisterMarkers("zhCN", {
+ModernMapMarkers_Locale:RegisterDictionary("zhCN", {
     ["Kalimdor"]             = "卡利姆多",
     ["Eastern Kingdoms"]     = "东部王国",
     -- Dungeon masks

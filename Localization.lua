@@ -1,6 +1,6 @@
 --- Localization.lua - ModernMapMarkers Localization Core
 --- Provides zone name reverse-lookup (localized -> English) and
---- marker name translation (English -> localized) for non-English clients.
+--- all other translations (English -> localized) for non-English clients. See ./Locales
 
 ModernMapMarkers_Locale = {}
 
@@ -8,42 +8,25 @@ ModernMapMarkers_Locale = {}
 local LocaleData = {}
 
 -- Active locale tables (set on VARIABLES_LOADED)
-local ActiveZones   = nil  -- English -> Localized zone names
-local ReverseZones  = nil  -- Localized -> English zone names
-local ActiveMarkers = nil  -- English -> Localized marker/instance names
+local Dictionary = nil  -- English -> Localized
 
 local detectedLocale = nil
 
---- Register a locale's zone translations.
-function ModernMapMarkers_Locale:RegisterZones(locale, tbl)
+--- Register a locale's dictionary containing all translations from ./Locales/Locale_xxXX.lua
+function ModernMapMarkers_Locale:RegisterDictionary(locale, tbl)
     if not LocaleData[locale] then LocaleData[locale] = {} end
-    LocaleData[locale].Zones = tbl
-end
-
---- Register a locale's marker/instance name translations.
-function ModernMapMarkers_Locale:RegisterMarkers(locale, tbl)
-    if not LocaleData[locale] then LocaleData[locale] = {} end
-    LocaleData[locale].Markers = tbl
+    LocaleData[locale].Dictionary = tbl
 end
 
 function ModernMapMarkers_Locale:Initialize()
     detectedLocale = GetLocale()
     if not detectedLocale or detectedLocale == "enGB" then
-        detectedLocale = "enUS"
+        detectedLocale = "enUS" -- trusty enUS fallback. working out greatly atm
     end
 
     local data = LocaleData[detectedLocale]
-
-    if data and data.Zones then
-        ActiveZones = data.Zones
-        ReverseZones = {}
-        for eng, loc in pairs(ActiveZones) do
-            ReverseZones[loc] = eng
-        end
-    end
-
-    if data and data.Markers then
-        ActiveMarkers = data.Markers
+    if data and data.Dictionary then
+        Dictionary = data.Dictionary
     end
 end
 
@@ -71,10 +54,13 @@ function ModernMapMarkers_Locale:GetLocalizedZoneName(englishName)
     return zoneName
 end
 
---- Given an English marker/instance name, return the localized display name.
+--- Given an English string, returns the localized equivalent, either from pfDB or the Dictionary. Applies a string mask.
 --- Falls back to the English name if no translation exists.
-function ModernMapMarkers_Locale:GetLocalizedMarkerName(englishName, type, mask)
-    --self:Print("GetLocalizedMarkerName - englishName: " .. tostring(englishName) .. ", type: " .. tostring(type) .. ", mask: " .. tostring(mask))
+-- englishName : the string in English
+-- type        : type can be "dungeon", "raid", "worldboss", "boat", "zepp", "tram"
+-- mask        : string mask that should be applied like "Boat to %s"
+function ModernMapMarkers_Locale:GetLocalizedString(englishName, type, mask)
+    --self:Print("GetLocalizedString - englishName: " .. tostring(englishName) .. ", type: " .. tostring(type) .. ", mask: " .. tostring(mask))
     local localizedName = nil
     if not mask then -- see if we automatically need to choose a mask because of the type
         if type == "BOAT" then
@@ -85,13 +71,13 @@ function ModernMapMarkers_Locale:GetLocalizedMarkerName(englishName, type, mask)
             mask = "Tram to %s"
         end
     end
-    if ActiveMarkers then
+    if Dictionary then
         local englishNameEnglishMask = englishName
         if mask then -- apply non-localized english mask if it exists
             englishNameEnglishMask = string.format(mask, englishName)
         end
-        if ActiveMarkers[englishNameEnglishMask] then
-            return ActiveMarkers[englishNameEnglishMask] -- we have a custom translation for this string, use it
+        if Dictionary[englishNameEnglishMask] then
+            return Dictionary[englishNameEnglishMask] -- we have a custom translation for this string, use it
         end
     end
     if type == "WORLDBOSS" then -- worldboss is the only type that is a unit name
@@ -105,13 +91,13 @@ function ModernMapMarkers_Locale:GetLocalizedMarkerName(englishName, type, mask)
             localizedName = MMM_PfDBHelper:GetZoneName(zoneId, detectedLocale) -- get localized zone name from pfDB
         end
     end
-    if not localizedName and ActiveMarkers then -- couldn't find it in zone or unit tables, try to get custom translation from ./Locales
-        localizedName = ActiveMarkers[englishName]
+    if not localizedName and Dictionary then -- couldn't find it in zone or unit tables, try to get custom translation from ./Locales
+        localizedName = Dictionary[englishName]
     end
     if mask then -- apply mask
         local localizedMask = mask
-        if ActiveMarkers and ActiveMarkers[mask] then
-            localizedMask = ActiveMarkers[mask] -- we have a localized mask
+        if Dictionary and Dictionary[mask] then
+            localizedMask = Dictionary[mask] -- we have a localized mask
         end
         if localizedName then -- all good. we have a localized name
             localizedName = string.format(localizedMask, localizedName)

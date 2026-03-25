@@ -6,18 +6,18 @@ function MMM_GUI.InitializeWorldMapControls()
 
     -- Filter Definitions
     local filterOptions = {
-        { label = L:GetLocalizedMarkerName("All Markers"),  value = "ALL",       isCheck = true, checked = true  },
-        { label = L:GetLocalizedMarkerName("Dungeons"),     value = "DUNGEON",   isCheck = true, checked = true  },
-        { label = L:GetLocalizedMarkerName("Raids"),        value = "RAID",      isCheck = true, checked = true  },
-        { label = L:GetLocalizedMarkerName("World Bosses"), value = "WORLDBOSS", isCheck = true, checked = true  },
-        { label = L:GetLocalizedMarkerName("Transports"), isHeader = true },
-        { label = "  " .. L:GetLocalizedMarkerName("Boats"),      value = "BOAT",      isCheck = true, checked = true  },
-        { label = "  " .. L:GetLocalizedMarkerName("Zeppelins"),  value = "ZEPPELIN",  isCheck = true, checked = true  },
-        { label = "  " .. L:GetLocalizedMarkerName("Trams"),      value = "TRAM",      isCheck = true, checked = true  },
-        { label = L:GetLocalizedMarkerName("Transport Faction"), isHeader = true },
-        { label = "  " .. L:GetLocalizedMarkerName("Show All"),   value = "ALL",       isCheck = true, checked = true,  isRadio = true, group = "fac" },
-        { label = "  " .. L:GetLocalizedMarkerName("Alliance"),   value = "Alliance",  isCheck = true, checked = false, isRadio = true, group = "fac" },
-        { label = "  " .. L:GetLocalizedMarkerName("Horde"),      value = "Horde",     isCheck = true, checked = false, isRadio = true, group = "fac" },
+        { label = L:GetLocalizedString("All Markers"),  value = "ALL",       isCheck = true, checked = true  },
+        { label = L:GetLocalizedString("Dungeons"),     value = "DUNGEON",   isCheck = true, checked = true  },
+        { label = L:GetLocalizedString("Raids"),        value = "RAID",      isCheck = true, checked = true  },
+        { label = L:GetLocalizedString("World Bosses"), value = "WORLDBOSS", isCheck = true, checked = true  },
+        { label = L:GetLocalizedString("Transports"), isHeader = true },
+        { label = "  " .. L:GetLocalizedString("Boats"),      value = "BOAT",      isCheck = true, checked = true  },
+        { label = "  " .. L:GetLocalizedString("Zeppelins"),  value = "ZEPPELIN",  isCheck = true, checked = true  },
+        { label = "  " .. L:GetLocalizedString("Trams"),      value = "TRAM",      isCheck = true, checked = true  },
+        { label = L:GetLocalizedString("Transport Faction"), isHeader = true },
+        { label = "  " .. L:GetLocalizedString("Show All"),   value = "ALL",       isCheck = true, checked = true,  isRadio = true, group = "fac" },
+        { label = "  " .. L:GetLocalizedString("Alliance"),   value = "Alliance",  isCheck = true, checked = false, isRadio = true, group = "fac" },
+        { label = "  " .. L:GetLocalizedString("Horde"),      value = "Horde",     isCheck = true, checked = false, isRadio = true, group = "fac" },
     }
 
     if ModernMapMarkersDB and ModernMapMarkersDB.filters then
@@ -75,12 +75,12 @@ function MMM_GUI.InitializeWorldMapControls()
 
     -- Also measure button texts and find dropdown labels
     local buttonTexts = {
-        L:GetLocalizedMarkerName("Filter Markers"),
-        L:GetLocalizedMarkerName("Find Marker"),
+        L:GetLocalizedString("Filter Markers"),
+        L:GetLocalizedString("Find Marker"),
         L:GetLocalizedZoneName("Kalimdor"),
         L:GetLocalizedZoneName("Eastern Kingdoms"),
-        L:GetLocalizedMarkerName("Dungeons"),
-        L:GetLocalizedMarkerName("Raids"),
+        L:GetLocalizedString("Dungeons"),
+        L:GetLocalizedString("Raids"),
     }
     for _, text in ipairs(buttonTexts) do
         local len = string.len(text)
@@ -164,7 +164,7 @@ function MMM_GUI.InitializeWorldMapControls()
 
     UIDropDownMenu_SetWidth(dropdownWidth, filterFrame)
     UIDropDownMenu_SetButtonWidth(dropdownButtonWidth, filterFrame)
-    UIDropDownMenu_SetText(L:GetLocalizedMarkerName("Filter Markers"), filterFrame)
+    UIDropDownMenu_SetText(L:GetLocalizedString("Filter Markers"), filterFrame)
     UIDropDownMenu_JustifyText("RIGHT", filterFrame)
 
 
@@ -180,7 +180,7 @@ function MMM_GUI.InitializeWorldMapControls()
 
     UIDropDownMenu_SetWidth(dropdownWidth, findFrame)
     UIDropDownMenu_SetButtonWidth(dropdownButtonWidth, findFrame)
-    UIDropDownMenu_SetText(L:GetLocalizedMarkerName("Find Marker"), findFrame)
+    UIDropDownMenu_SetText(L:GetLocalizedString("Find Marker"), findFrame)
     UIDropDownMenu_JustifyText("RIGHT", findFrame)
 
     if findBtn then
@@ -276,22 +276,22 @@ function MMM_GUI.InitializeWorldMapControls()
     -- Continent buttons
     local halfWidth = (PANEL_WIDTH - PANEL_PADDING * 2 - BUTTON_SPACING) / 2
 
-    local btnKalimdor = CreateSelectorButton("MMMFind_Kalimdor", findPanel, halfWidth, L:GetLocalizedMarkerName("Kalimdor"))
+    local btnKalimdor = CreateSelectorButton("MMMFind_Kalimdor", findPanel, halfWidth, L:GetLocalizedString("Kalimdor"))
     btnKalimdor:SetPoint("TOPLEFT", findPanel, "TOPLEFT", PANEL_PADDING, -PANEL_PADDING)
 
-    local btnEK = CreateSelectorButton("MMMFind_EK", findPanel, halfWidth, L:GetLocalizedMarkerName("Eastern Kingdoms"))
+    local btnEK = CreateSelectorButton("MMMFind_EK", findPanel, halfWidth, L:GetLocalizedString("Eastern Kingdoms"))
     btnEK:SetPoint("TOPLEFT", btnKalimdor, "TOPRIGHT", BUTTON_SPACING, 0)
 
     -- Type buttons
     local thirdWidth = (PANEL_WIDTH - PANEL_PADDING * 2 - BUTTON_SPACING * 2) / 3
 
-    local btnDungeon = CreateSelectorButton("MMMFind_Dungeon", findPanel, thirdWidth, L:GetLocalizedMarkerName("Dungeons"))
+    local btnDungeon = CreateSelectorButton("MMMFind_Dungeon", findPanel, thirdWidth, L:GetLocalizedString("Dungeons"))
     btnDungeon:SetPoint("TOPLEFT", btnKalimdor, "BOTTOMLEFT", 0, -BUTTON_SPACING)
 
-    local btnRaid = CreateSelectorButton("MMMFind_Raid", findPanel, thirdWidth, L:GetLocalizedMarkerName("Raids"))
+    local btnRaid = CreateSelectorButton("MMMFind_Raid", findPanel, thirdWidth, L:GetLocalizedString("Raids"))
     btnRaid:SetPoint("TOPLEFT", btnDungeon, "TOPRIGHT", BUTTON_SPACING, 0)
 
-    local btnWorldBoss = CreateSelectorButton("MMMFind_WorldBoss", findPanel, thirdWidth, L:GetLocalizedMarkerName("World Bosses"))
+    local btnWorldBoss = CreateSelectorButton("MMMFind_WorldBoss", findPanel, thirdWidth, L:GetLocalizedString("World Bosses"))
     btnWorldBoss:SetPoint("TOPLEFT", btnRaid, "TOPRIGHT", BUTTON_SPACING, 0)
 
     -- Scroll frame for the instance list
@@ -409,7 +409,7 @@ function MMM_GUI.InitializeWorldMapControls()
         FauxScrollFrame_Update(scrollFrame, totalRows, MAX_VISIBLE_ROWS, ROW_HEIGHT)
 
         local offset = FauxScrollFrame_GetOffset(scrollFrame)
-        local lvlLabel = L:GetLocalizedMarkerName("Level") or "Level"
+        local lvlLabel = L:GetLocalizedString("Level") or "Level"
 
         for i = 1, MAX_VISIBLE_ROWS do
             local row = rowButtons[i]
@@ -417,7 +417,7 @@ function MMM_GUI.InitializeWorldMapControls()
 
             if dataIndex <= totalRows then
                 local data = currentList[dataIndex]
-                local localizedName = L:GetLocalizedMarkerName(data.name, data.type)
+                local localizedName = L:GetLocalizedString(data.name, data.type)
                 row.nameText:SetText(localizedName)
                 row.tooltipNameText = localizedName -- store the full name text so it never gets truncated in the tooltip
                 row.tooltipLvlText = lvlLabel .. " " .. data.description
@@ -557,13 +557,13 @@ SlashCmdList["MMM"] = function()
             findFrame:Hide()
             if findPanel then findPanel:Hide() end
             if DEFAULT_CHAT_FRAME then
-                DEFAULT_CHAT_FRAME:AddMessage("|cff7fff7fModern|rMapMarkers: " .. L:GetLocalizedMarkerName("Dropdown menus hidden."))
+                DEFAULT_CHAT_FRAME:AddMessage("|cff7fff7fModern|rMapMarkers: " .. L:GetLocalizedString("Dropdown menus hidden."))
             end
         else
             filterFrame:Show()
             findFrame:Show()
             if DEFAULT_CHAT_FRAME then
-                DEFAULT_CHAT_FRAME:AddMessage("|cff7fff7fModern|rMapMarkers: " .. L:GetLocalizedMarkerName("Dropdown menus shown."))
+                DEFAULT_CHAT_FRAME:AddMessage("|cff7fff7fModern|rMapMarkers: " .. L:GetLocalizedString("Dropdown menus shown."))
             end
         end
     end
