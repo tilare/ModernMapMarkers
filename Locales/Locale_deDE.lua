@@ -1,6 +1,8 @@
 --- Locale_deDE.lua - German Localization for ModernMapMarkers
 
 ModernMapMarkers_Locale:RegisterMarkers("deDE", {
+    ["Kalimdor"]            = "Kalimdor",
+    ["Eastern Kingdoms"]    = "Östliche Königreiche",
     -- Dungeon masks
     -- %s will get substituted with the localized Dungeon name
     ["%s - East"]           = "%s - Ost", -- Dire Maul

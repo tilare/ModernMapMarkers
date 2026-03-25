@@ -1,6 +1,8 @@
 --- Locale_esES.lua - Spanish Localization for ModernMapMarkers
 
 ModernMapMarkers_Locale:RegisterMarkers("esES", {
+    ["Kalimdor"]             = "Kalimdor",
+    ["Eastern Kingdoms"]     = "Reinos del Este",
     -- Dungeon masks
     -- %s will get substituted with the localized Dungeon name
     ["%s - East"]           = "%s - Este", -- Dire Maul

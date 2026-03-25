@@ -276,10 +276,10 @@ function MMM_GUI.InitializeWorldMapControls()
     -- Continent buttons
     local halfWidth = (PANEL_WIDTH - PANEL_PADDING * 2 - BUTTON_SPACING) / 2
 
-    local btnKalimdor = CreateSelectorButton("MMMFind_Kalimdor", findPanel, halfWidth, L:GetLocalizedZoneName("Kalimdor"))
+    local btnKalimdor = CreateSelectorButton("MMMFind_Kalimdor", findPanel, halfWidth, L:GetLocalizedMarkerName("Kalimdor"))
     btnKalimdor:SetPoint("TOPLEFT", findPanel, "TOPLEFT", PANEL_PADDING, -PANEL_PADDING)
 
-    local btnEK = CreateSelectorButton("MMMFind_EK", findPanel, halfWidth, L:GetLocalizedZoneName("Eastern Kingdoms"))
+    local btnEK = CreateSelectorButton("MMMFind_EK", findPanel, halfWidth, L:GetLocalizedMarkerName("Eastern Kingdoms"))
     btnEK:SetPoint("TOPLEFT", btnKalimdor, "TOPRIGHT", BUTTON_SPACING, 0)
 
     -- Type buttons
