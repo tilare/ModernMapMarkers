@@ -200,7 +200,7 @@ function MMM_GUI.InitializeWorldMapControls()
     UIDropDownMenu_Initialize(findFrame, function() end)
 
     -- Find Marker Panel
-    local PANEL_WIDTH = 235
+    local PANEL_WIDTH = 240
     local ROW_HEIGHT = 16
     local MAX_VISIBLE_ROWS = 12
     local BUTTON_HEIGHT = 20
@@ -328,9 +328,9 @@ function MMM_GUI.InitializeWorldMapControls()
         row:SetScript("OnEnter", function()
             if row.dataID then
                 WorldMapTooltip:SetOwner(row, "ANCHOR_LEFT")
-                WorldMapTooltip:AddLine(row.nameText:GetText(), 1, 0.82, 0)
-                if row.lvlText:GetText() and row.lvlText:GetText() ~= "" then
-                    WorldMapTooltip:AddLine(row.lvlText:GetText(), 1, 1, 1)
+                WorldMapTooltip:AddLine(row.tooltipNameText, 1, 0.82, 0)
+                if row.tooltipLvlText then
+                    WorldMapTooltip:AddLine(row.tooltipLvlText, 1, 1, 1)
                 end
                 WorldMapTooltip:Show()
             end
@@ -354,6 +354,36 @@ function MMM_GUI.InitializeWorldMapControls()
         local blvl = tonumber(blvlStr) or 0
         if alvl == blvl then return (a.name or "") < (b.name or "") end
         return alvl < blvl
+    end
+
+    -- Set text on a FontString and truncate with ellipsis if rendered width > maxWidth.
+    -- fontString : a valid FontString object
+    -- text       : string to set
+    -- maxWidth   : maximum allowed width in pixels (number)
+    local function SetFontStringTruncated(fontString, text, maxWidth)
+        if not fontString or type(text) ~= "string" or type(maxWidth) ~= "number" then return end
+        fontString:SetText(text)
+        if fontString:GetStringWidth() <= maxWidth then return end -- return if whole string isn't longer anyways
+
+        local ELLIPSIS = "…"
+        local lo = 0; local hi = string.len(text); local best = 0
+        while lo <= hi do -- binary search to determine the maximum string length including ellipsis
+            local mid = math.floor((lo + hi) / 2)
+            local substr = string.sub(text, 1, mid) .. ELLIPSIS
+            fontString:SetText(substr)
+            if fontString:GetStringWidth() <= maxWidth then
+                best = mid
+                lo = mid + 1
+            else
+                hi = mid - 1
+            end
+        end
+
+        if best > 0 then
+            fontString:SetText(string.sub(text, 1, best) .. ELLIPSIS)
+        else
+            fontString:SetText(ELLIPSIS) -- only possible when maxWidth is way too small
+        end
     end
 
     local function RefreshFindList()
@@ -389,6 +419,8 @@ function MMM_GUI.InitializeWorldMapControls()
                 local data = currentList[dataIndex]
                 local localizedName = L:GetLocalizedMarkerName(data.name, data.type)
                 row.nameText:SetText(localizedName)
+                row.tooltipNameText = localizedName -- store the full name text so it never gets truncated in the tooltip
+                row.tooltipLvlText = lvlLabel .. " " .. data.description
 
                 if data.description then
                     row.lvlText:SetText(data.description)
@@ -396,6 +428,7 @@ function MMM_GUI.InitializeWorldMapControls()
                     row.lvlText:SetText("")
                 end
 
+                SetFontStringTruncated(row.nameText, localizedName, row:GetWidth() - row.lvlText:GetStringWidth())
                 row.nameText:SetWidth(row:GetWidth() - row.lvlText:GetStringWidth())
 
                 row.dataID = data.id
