@@ -1,0 +1,13 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
+    <Script file="pfDBInit.lua"/>
+    <Include file="deDE\pfDB_deDE.xml"/>
+    <Include file="enUS\pfDB_enUS.xml"/>
+    <Include file="esES\pfDB_esES.xml"/>
+    <Include file="frFR\pfDB_frFR.xml"/>
+    <Include file="koKR\pfDB_koKR.xml"/>
+    <Include file="ptBR\pfDB_ptBR.xml"/>
+    <Include file="zhTW\pfDB_zhTW.xml"/>
+    <Include file="zhCN\pfDB_zhCN.xml"/>
+    <Script file="pfDBHelper.lua"/>
+</Ui>

@@ -122,8 +122,7 @@ end
 -- Map multi-entrance dungeons to a single zone
 local CANONICAL_ZONE = {
     ["Blackrock Depths"]      = "Burning Steppes",
-    ["Lower Blackrock Spire"] = "Burning Steppes",
-    ["Upper Blackrock Spire"] = "Burning Steppes",
+    ["Blackrock Spire"]       = "Burning Steppes",
     ["Blackwing Lair"]        = "Burning Steppes",
     ["Molten Core"]           = "Burning Steppes",
     ["Stormwind Vault"]       = "Stormwind City",
@@ -157,6 +156,7 @@ function MMM:BuildData()
                     y           = m.y,
                     name        = m.name,
                     type        = typeUpper,
+                    mask        = m.mask,
                     description = m.info,
                     id          = index
                 }
@@ -183,11 +183,6 @@ function ModernMapMarkers_GetFlatData()
     for _, data in ipairs(MMM.Data) do
         if data.type == "DUNGEON" or data.type == "RAID" or data.type == "WORLDBOSS" then
             local baseName = data.name or ""
-
-            local dashIndex = string.find(baseName, " %- ")
-            if dashIndex then
-                baseName = string.sub(baseName, 1, dashIndex - 1)
-            end
 
             local existingIndex = seenNames[baseName]
             if not existingIndex then
@@ -310,7 +305,7 @@ function MMM:RefreshMarkers()
                 end
 
                 -- Metadata
-                marker.name        = L:GetLocalizedMarkerName(data.name)
+                marker.name        = L:GetLocalizedString(data.name, data.type, data.mask)
                 marker.nameEN      = data.name
                 marker.description = data.description
                 marker.markerType  = data.type
@@ -403,21 +398,21 @@ function MMM:GetOrCreateMarker(index)
 
             if this.description then
                 if this.markerType == "DUNGEON" or this.markerType == "RAID" or this.markerType == "WORLDBOSS" then
-                    local lvlLabel = L:GetLocalizedMarkerName("Level") or "Level"
+                    local lvlLabel = L:GetLocalizedString("Level") or "Level"
                     WorldMapTooltip:AddLine(lvlLabel .. ": " .. this.description, 1, 1, 1, 1)
                 elseif this.description == "Alliance" then
-                    WorldMapTooltip:AddLine(L:GetLocalizedMarkerName("Alliance"), 0.0, 0.47, 1.0, 1)
+                    WorldMapTooltip:AddLine(L:GetLocalizedString("Alliance"), 0.0, 0.47, 1.0, 1)
                 elseif this.description == "Horde" then
-                    WorldMapTooltip:AddLine(L:GetLocalizedMarkerName("Horde"), 1.0, 0.0, 0.0, 1)
+                    WorldMapTooltip:AddLine(L:GetLocalizedString("Horde"), 1.0, 0.0, 0.0, 1)
                 else
-                    WorldMapTooltip:AddLine(L:GetLocalizedMarkerName(this.description), 1, 1, 1, 1)
+                    WorldMapTooltip:AddLine(L:GetLocalizedString(this.description), 1, 1, 1, 1)
                 end
             end
 
             -- IJ tooltips for dungeon/raid markers
             if MMM.ijInstalled and MMM:GetIJInstance(this.nameEN) then
-                WorldMapTooltip:AddLine(L:GetLocalizedMarkerName("Left-Click: View Map"), 0.5, 0.5, 0.5)
-                WorldMapTooltip:AddLine(L:GetLocalizedMarkerName("Right-Click: Instance Journal"), 0.5, 0.5, 0.5)
+                WorldMapTooltip:AddLine(L:GetLocalizedString("Left-Click: View Map"), 0.5, 0.5, 0.5)
+                WorldMapTooltip:AddLine(L:GetLocalizedString("Right-Click: Instance Journal"), 0.5, 0.5, 0.5)
             end
 
             WorldMapTooltip:Show()
@@ -597,10 +592,10 @@ MMM:SetScript("OnEvent", function()
                                         WorldMapTooltip:AddLine(inst.Name or "", 1, 0.82, 0)
                                         local minLvl = inst.MinLevel or 0
                                         local maxLvl = inst.MaxLevel or 0
-                                        local lvlLabel = L:GetLocalizedMarkerName("Level") or "Level"
+                                        local lvlLabel = L:GetLocalizedString("Level") or "Level"
                                         WorldMapTooltip:AddLine(lvlLabel .. ": " .. minLvl .. "-" .. maxLvl, 1, 1, 1, 1)
-                                        WorldMapTooltip:AddLine(L:GetLocalizedMarkerName("Left-Click: View Map"), 0.5, 0.5, 0.5)
-                                        WorldMapTooltip:AddLine(L:GetLocalizedMarkerName("Right-Click: Instance Journal"), 0.5, 0.5, 0.5)
+                                        WorldMapTooltip:AddLine(L:GetLocalizedString("Left-Click: View Map"), 0.5, 0.5, 0.5)
+                                        WorldMapTooltip:AddLine(L:GetLocalizedString("Right-Click: Instance Journal"), 0.5, 0.5, 0.5)
                                         WorldMapTooltip:Show()
                                     end
                                 end)

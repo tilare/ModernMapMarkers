@@ -1,142 +1,36 @@
 --- Locale_deDE.lua - German Localization for ModernMapMarkers
 
-ModernMapMarkers_Locale:RegisterZones("deDE", {
-    -- Continent names
-    ["Kalimdor"]             = "Kalimdor",
-    ["Eastern Kingdoms"]     = "Östliche Königreiche",
-    ["Ashenvale"]            = "Eschental",
-    ["Azshara"]              = "Azshara",
-    ["Badlands"]             = "Ödland",
-    ["Balor"]                = "Balor",
-    ["Blasted Lands"]        = "Verwüstete Lande",
-    ["Burning Steppes"]      = "Brennende Steppe",
-    ["Darkshore"]            = "Dunkelküste",
-    ["Deadwind Pass"]        = "Gebirgspass der Totenwinde",
-    ["Desolace"]             = "Desolace",
-    ["Dun Morogh"]           = "Dun Morogh",
-    ["Durotar"]              = "Durotar",
-    ["Duskwood"]             = "Dämmerwald",
-    ["Dustwallow Marsh"]     = "Düstermarschen",
-    ["Eastern Plaguelands"]  = "Östliche Pestländer",
-    ["Elwynn Forest"]        = "Wald von Elwynn",
-    ["Feralas"]              = "Feralas",
-    ["Gilneas"]              = "Gilneas",
-    ["Hyjal"]                = "Hyjal",
-    ["Ironforge"]            = "Eisenschmiede",
-    ["Moonwhisper Coast"]    = "Mondflüsterküste",
-    ["Orgrimmar"]            = "Orgrimmar",
-    ["Searing Gorge"]        = "Sengende Schlucht",
-    ["Silithus"]             = "Silithus",
-    ["Silverpine Forest"]    = "Silberwald",
-    ["Stormwind City"]       = "Sturmwind",
-    ["Stranglethorn Vale"]   = "Schlingendorntal",
-    ["Swamp of Sorrows"]     = "Sümpfe des Elends",
-    ["Tanaris"]              = "Tanaris",
-    ["Teldrassil"]           = "Teldrassil",
-    ["The Barrens"]          = "Brachland",
-    ["The Hinterlands"]      = "Hinterland",
-    ["Thunder Bluff"]        = "Donnerfels",
-    ["Tirisfal Glades"]      = "Tirisfal",
-    ["Western Plaguelands"]  = "Westliche Pestländer",
-    ["Westfall"]             = "Westfall",
-    ["Wetlands"]             = "Sumpfland",
-    ["Alah'Thalas"]          = "Alah'Thalas",
-})
+ModernMapMarkers_Locale:RegisterDictionary("deDE", {
+    ["Kalimdor"]            = "Kalimdor",
+    ["Eastern Kingdoms"]    = "Östliche Königreiche",
+    -- Dungeon masks
+    -- %s will get substituted with the localized Dungeon name
+    ["%s - East"]           = "%s - Ost", -- Dire Maul
+    ["%s - West"]           = "%s - West", -- Dire Maul
+    ["%s - North"]          = "%s - Nord", -- Dire Maul
+    ["%s - Back Entrance"]  = "%s - Hintereingang", -- Stormwrought Ruins, Uldaman
+    ["Lower %s"]            = "Untere %s", -- Lower Blackrock Spire
+    ["Upper %s"]            = "Obere %s", -- Upper Blackrock Spire
+    ["%s - Armory"]         = "%s - Waffenkammer", -- Scarlet Monastery
+    ["%s - Cathedral"]      = "%s - Kathedrale", -- Scarlet Monastery
+    ["%s - Graveyard"]      = "%s - Friedhof", -- Scarlet Monastery
+    ["%s - Library"]        = "%s - Bibliothek", -- Scarlet Monastery
+    ["%s - Back Gate"]      = "%s - Hintertor", -- Stratholme
+    ["%s - Horde Entrance"] = "%s - Horde-Eingang", -- Stormwind Vault
+    ["%s - Main Entrance"]  = "%s - Haupteingang", -- Uldaman
 
-ModernMapMarkers_Locale:RegisterMarkers("deDE", {
-    -- Dungeons
-    ["Blackfathom Deeps"]                   = "Tiefschwarze Grotte",
-    ["Crescent Grove"]                      = "Mondsichelhain",
-    ["Maraudon"]                            = "Maraudon",
-    ["Ragefire Chasm"]                      = "Der Flammenschlund",
-    ["Dire Maul"]                           = "Düsterbruch",
-    ["Dire Maul - East"]                    = "Düsterbruch - Ost",
-    ["Dire Maul - North"]                   = "Düsterbruch - Nord",
-    ["Dire Maul - West"]                    = "Düsterbruch - West",
-    ["Razorfen Downs"]                      = "Hügel der Klingenhauer",
-    ["Razorfen Kraul"]                      = "Kral der Klingenhauer",
-    ["Wailing Caverns"]                     = "Höhlen des Wehklagens",
-    ["Zul'Farrak"]                          = "Zul'Farrak",
-    ["Black Morass"]                        = "Höhlen der Zeit: Schwarzer Morast",
-    ["Gnomeregan"]                          = "Gnomeregan",
-    ["Stormwrought Ruins"]                  = "Ruine von Sturmschmied",
-    ["Stormwrought Ruins - Back Entrance"]  = "Ruine von Sturmschmied - Hintereingang",
-    ["Blackrock Depths"]                    = "Schwarzfelstiefen",
-    ["Hateforge Quarry"]                    = "Hassschmieden Steinbruch",
-    ["Lower Blackrock Spire"]               = "Untere Schwarzfelsspitze",
-    ["Upper Blackrock Spire"]               = "Obere Schwarzfelsspitze",
-    ["Karazhan Crypt"]                      = "Karazhan Krypta",
-    ["Scarlet Monastery"]                   = "Das Scharlachrote Kloster",
-    ["Scarlet Monastery - Armory"]          = "Das Scharlachrote Kloster - Waffenkammer",
-    ["Scarlet Monastery - Cathedral"]       = "Das Scharlachrote Kloster - Kathedrale",
-    ["Scarlet Monastery - Graveyard"]       = "Das Scharlachrote Kloster - Friedhof",
-    ["Scarlet Monastery - Library"]         = "Das Scharlachrote Kloster - Bibliothek",
-    ["Scholomance"]                         = "Scholomance",
-    ["Shadowfang Keep"]                     = "Burg Schattenfang",
-    ["Stratholme"]                          = "Stratholme",
-    ["Stratholme - Back Gate"]              = "Stratholme - Hintertor",
-    ["The Deadmines"]                       = "Die Todesminen",
-    ["The Stockade"]                        = "Das Verlies",
-    ["Stormwind Vault"]                     = "Tresor von Sturmwind",
-    ["Stormwind Vault - Horde Entrance"]    = "Tresor von Sturmwind - Horde-Eingang",
-    ["Gilneas City"]                        = "Stadt von Gilneas",
-    ["The Sunken Temple"]                   = "Der Versunkene Tempel",
-    ["Dragonmaw Retreat"]                   = "Zuflucht des Drachenmals",
-    ["Uldaman"]                             = "Uldaman",
-    ["Uldaman - Main Entrance"]             = "Uldaman - Haupteingang",
-    ["Uldaman - Back Entrance"]             = "Uldaman - Hintereingang",
-    ["Frostmane Hollow"]                    = "Frostmane Hollow",
-    ["Windhorn Canyon"]                     = "Schlucht der heulenden Winde",
-
-    -- Raids
-    ["Onyxia's Lair"]          = "Onyxias Hort",
-    ["Emerald Sanctum"]        = "Smaragdsanktum",
-    ["Ruins of Ahn'Qiraj"]     = "Ruinen von Ahn'Qiraj",
-    ["Temple of Ahn'Qiraj"]    = "Tempel von Ahn'Qiraj",
-    ["Blackwing Lair"]         = "Pechschwingenhort",
-    ["Molten Core"]            = "Geschmolzener Kern",
-    ["Lower Karazhan Halls"]   = "Untere Hallen von Karazhan",
-    ["Tower of Karazhan"]      = "Turm von Karazhan",
-    ["Naxxramas"]              = "Naxxramas",
-    ["Zul'Gurub"]              = "Zul'Gurub",
-    ["Timbermaw Hold"]         = "Holzschlundfeste",
-
-    -- World Bosses
-    ["Taerar"]                 = "Taerar",
-    ["Lethon"]                 = "Lethon",
-    ["Emeriss"]                = "Emeriss",
-    ["Ysondre"]                = "Ysondre",
-    ["Azuregos"]               = "Azuregos",
-    ["Cla'ckora"]              = "Cla'ckora",
-    ["Concavius"]              = "Concavius",
-    ["Father Lycan"]           = "Vater Lycan",
-    ["Lord Kazzak"]            = "Lord Kazzak",
-    ["Ostarius"]               = "Ostarius",
-    ["Dark Reaver of Karazhan"]  = "Dunkler Plünderer von Karazhan",
-    ["Nerubian Overseer"]      = "Nerubischer Aufseher",
-
-    -- Transports
-    ["Boat to Stormwind"]          = "Schiff nach Sturmwind",
-    ["Boat to Alah'Thalas"]        = "Schiff nach Alah'Thalas",
-    ["Boat to Rut'Theran Village"] = "Schiff nach Rut'Theran",
-    ["Boat to Auberdine"]          = "Schiff nach Auberdine",
-    ["Boat to Menethil Harbor"]    = "Schiff zum Hafen von Menethil",
-    ["Boat to Theramore Isle"]     = "Schiff zur Insel Theramore",
-    ["Boat to Booty Bay"]          = "Schiff zur Beutebucht",
-    ["Boat to Ratchet"]            = "Schiff nach Ratschet",
-    ["Boat to Forgotten Coast"]    = "Schiff zur Vergessenen Küste",
-    ["Boat to Sardor Isle"]        = "Schiff zur Sardor-Insel",
-    ["Boat to Revantusk Village"]  = "Schiff zum Dorf der Bruchhauer",
-    ["Boat to Sparkwater Port"]    = "Schiff zum Funkelwasserhafen",
-    ["Boat to Shadowprey Village"] = "Schiff nach Schattenflucht",
-    ["Boat to Moonhoof Village"]    = "Schiff nach Mondhuf",
-    ["Zeppelins to UC & Grom'Gol"]      = "Zeppeline nach Unterstadt & Grom’gol",
-    ["Zeppelins to TB & Kargath"]        = "Zeppeline nach Donnerfels & Kargath",
-    ["Zeppelin to Orgrimmar"]            = "Zeppelin nach Orgrimmar",
-    ["Zeppelins to Orgrimmar & Grom'Gol"] = "Zeppeline nach Orgrimmar & Grom'Gol",
-    ["Zeppelins to UC & Orgrimmar"]      = "Zeppeline nach Unterstadt & Orgrimmar",
-    ["Tram to Stormwind"]     = "Tiefenbahn nach Sturmwind",
-    ["Tram to Ironforge"]     = "Tiefenbahn nach Eisenschmiede",
+    -- Transport masks
+    -- %s will get substituted with the destination's localized name
+    ["Boat to %s"]      = "Schiff nach %s",
+    ["Zeppelin to %s"]  = "Zeppelin nach %s",
+    ["Tram to %s"]      = "Tiefenbahn nach %s",
+    -- translations that need manual adjustment
+    ["Boat to Menethil Harbor"]        = "Schiff zum Hafen von Menethil",
+    ["Boat to Theramore Isle"]         = "Schiff zur Insel Theramore",
+    ["Boat to Sparkwater Port"]        = "Schiff zum Funkelwasserhafen",
+    ["Boat to The Forgotten Coast"]    = "Schiff zur Vergessenen Küste",
+    ["Boat to Sardor-Island"]          = "Schiff zur Insel Sardor",
+    ["Zeppelin to Grom'gol Base Camp"] = "Zeppelin zum Basislager von Grom'gol",
 
     -- Tooltip labels
     ["Level"]    = "Stufe",

@@ -1,140 +1,29 @@
 --- Locale_zhCN.lua - Simplified Chinese Localization for ModernMapMarkers
 
-ModernMapMarkers_Locale:RegisterZones("zhCN", {
-    -- Continent names
+ModernMapMarkers_Locale:RegisterDictionary("zhCN", {
     ["Kalimdor"]             = "卡利姆多",
     ["Eastern Kingdoms"]     = "东部王国",
-    ["Ashenvale"]            = "灰谷",
-    ["Azshara"]              = "艾萨拉",
-    ["Badlands"]             = "荒芜之地",
-    ["Balor"]                = "巴洛",
-    ["Blasted Lands"]        = "诅咒之地",
-    ["Burning Steppes"]      = "燃烧平原",
-    ["Darkshore"]            = "黑海岸",
-    ["Deadwind Pass"]        = "逆风小径",
-    ["Desolace"]             = "凄凉之地",
-    ["Dun Morogh"]           = "丹莫罗",
-    ["Durotar"]              = "杜隆塔尔",
-    ["Duskwood"]             = "暮色森林",
-    ["Dustwallow Marsh"]     = "尘泥沼泽",
-    ["Eastern Plaguelands"]  = "东瘟疫之地",
-    ["Elwynn Forest"]        = "艾尔文森林",
-    ["Feralas"]              = "菲拉斯",
-    ["Gilneas"]              = "吉尔尼斯",
-    ["Hyjal"]                = "海加尔山",
-    ["Ironforge"]            = "铁炉堡",
-    ["Moonwhisper Coast"]    = "月语海岸",
-    ["Orgrimmar"]            = "奥格瑞玛",
-    ["Searing Gorge"]        = "灼热峡谷",
-    ["Silithus"]             = "希利苏斯",
-    ["Silverpine Forest"]    = "银松森林",
-    ["Stormwind City"]       = "暴风城",
-    ["Stranglethorn Vale"]   = "荆棘谷",
-    ["Swamp of Sorrows"]     = "悲伤沼泽",
-    ["Tanaris"]              = "塔纳利斯",
-    ["Teldrassil"]           = "泰达希尔",
-    ["The Barrens"]          = "贫瘠之地",
-    ["The Hinterlands"]      = "辛特兰",
-    ["Thunder Bluff"]        = "雷霆崖",
-    ["Tirisfal Glades"]      = "提瑞斯法林地",
-    ["Western Plaguelands"]  = "西瘟疫之地",
-    ["Westfall"]             = "西部荒野",
-    ["Wetlands"]             = "湿地",
-    ["Alah'Thalas"]          = "阿尔萨拉斯",
-})
+    -- Dungeon masks
+    -- %s will get substituted with the localized Dungeon name
+    ["%s - East"]           = "%s - 东", -- Dire Maul
+    ["%s - West"]           = "%s - 西", -- Dire Maul
+    ["%s - North"]          = "%s - 北", -- Dire Maul
+    ["%s - Back Entrance"]  = "%s - 后门", -- Stormwrought Ruins, Uldaman
+    ["Lower %s"]            = "%s下层", -- Lower Blackrock Spire
+    ["Upper %s"]            = "%s上层", -- Upper Blackrock Spire
+    ["%s - Armory"]         = "%s - 军械库", -- Scarlet Monastery
+    ["%s - Cathedral"]      = "%s - 大教堂", -- Scarlet Monastery
+    ["%s - Graveyard"]      = "%s - 墓地", -- Scarlet Monastery
+    ["%s - Library"]        = "%s - 图书馆", -- Scarlet Monastery
+    ["%s - Back Gate"]      = "%s - 后门", -- Stratholme
+    ["%s - Horde Entrance"] = "%s - 部落入口", -- Stormwind Vault
+    ["%s - Main Entrance"]  = "%s - 主入口", -- Uldaman
 
-ModernMapMarkers_Locale:RegisterMarkers("zhCN", {
-    -- Dungeons
-    ["Blackfathom Deeps"]                   = "黑暗深渊",
-    ["Crescent Grove"]                      = "新月林地",
-    ["Maraudon"]                            = "玛拉顿",
-    ["Ragefire Chasm"]                      = "怒焰裂谷",
-    ["Dire Maul"]                           = "厄运之槌",
-    ["Dire Maul - East"]                    = "厄运之槌 - 东",
-    ["Dire Maul - North"]                   = "厄运之槌 - 北",
-    ["Dire Maul - West"]                    = "厄运之槌 - 西",
-    ["Razorfen Downs"]                      = "剃刀高地",
-    ["Razorfen Kraul"]                      = "剃刀沼泽",
-    ["Wailing Caverns"]                     = "哀嚎洞穴",
-    ["Zul'Farrak"]                          = "祖尔法拉克",
-    ["Black Morass"]                        = "黑色沼泽",
-    ["Gnomeregan"]                          = "诺莫瑞根",
-    ["Stormwrought Ruins"]                  = "风暴废墟",
-    ["Stormwrought Ruins - Back Entrance"]  = "风暴废墟 - 后门",
-    ["Blackrock Depths"]                    = "黑石深渊",
-    ["Hateforge Quarry"]                    = "仇恨熔炉采石场",
-    ["Lower Blackrock Spire"]               = "黑石塔下层",
-    ["Upper Blackrock Spire"]               = "黑石塔上层",
-    ["Karazhan Crypt"]                      = "卡拉赞墓穴",
-    ["Scarlet Monastery"]                   = "血色修道院",
-    ["Scarlet Monastery - Armory"]          = "血色修道院 - 兵器库",
-    ["Scarlet Monastery - Cathedral"]       = "血色修道院 - 教堂",
-    ["Scarlet Monastery - Graveyard"]       = "血色修道院 - 墓地",
-    ["Scarlet Monastery - Library"]         = "血色修道院 - 图书馆",
-    ["Scholomance"]                         = "通灵学院",
-    ["Shadowfang Keep"]                     = "影牙城堡",
-    ["Stratholme"]                          = "斯坦索姆",
-    ["Stratholme - Back Gate"]              = "斯坦索姆 - 后门",
-    ["The Deadmines"]                       = "死亡矿井",
-    ["The Stockade"]                        = "监狱",
-    ["Stormwind Vault"]                     = "暴风城地牢",
-    ["Stormwind Vault - Horde Entrance"]    = "暴风城地牢 - 部落入口",
-    ["Gilneas City"]                        = "吉尔尼斯城",
-    ["The Sunken Temple"]                   = "沉没的神庙",
-    ["Dragonmaw Retreat"]                   = "龙喉居所",
-    ["Uldaman"]                             = "奥达曼",
-    ["Uldaman - Main Entrance"]             = "奥达曼 - 主入口",
-    ["Uldaman - Back Entrance"]             = "奥达曼 - 后入口",
-    ["Frostmane Hollow"]                    = "霜鬃谷",
-    ["Windhorn Canyon"]                     = "风角峡谷",
-
-    -- Raids
-    ["Onyxia's Lair"]          = "奥妮克希亚的巢穴",
-    ["Emerald Sanctum"]        = "翡翠圣殿",
-    ["Ruins of Ahn'Qiraj"]     = "安其拉废墟",
-    ["Temple of Ahn'Qiraj"]    = "安其拉神殿",
-    ["Blackwing Lair"]         = "黑翼之巢",
-    ["Molten Core"]            = "熔火之心",
-    ["Lower Karazhan Halls"]   = "卡拉赞下层大厅",
-    ["Tower of Karazhan"]      = "卡拉赞之塔",
-    ["Naxxramas"]              = "纳克萨玛斯",
-    ["Zul'Gurub"]              = "祖尔格拉布",
-    ["Timbermaw Hold"]         = "木喉要塞",
-
-    -- World Bosses
-    ["Taerar"]                 = "塔拉尔",
-    ["Lethon"]                 = "莱索恩",
-    ["Emeriss"]                = "艾莫莉丝",
-    ["Ysondre"]                = "伊森德雷",
-    ["Azuregos"]               = "艾索雷葛斯",
-    ["Cla'ckora"]              = "克拉科拉",
-    ["Concavius"]              = "空卡维斯",
-    ["Father Lycan"]           = "人狼神父",
-    ["Lord Kazzak"]            = "卡扎克",
-    ["Ostarius"]               = "奥兹塔里亚斯",
-    ["Dark Reaver of Karazhan"]  = "卡拉赞黑暗掠夺者",
-    ["Nerubian Overseer"]      = "蛛怪监工",
-
-    -- Transports
-    ["Boat to Stormwind"]          = "前往暴风城",
-    ["Boat to Alah'Thalas"]        = "前往阿尔萨拉斯",
-    ["Boat to Rut'Theran Village"] = "前往鲁瑟兰村",
-    ["Boat to Auberdine"]          = "前往奥伯丁",
-    ["Boat to Menethil Harbor"]    = "前往米奈希尔港",
-    ["Boat to Theramore Isle"]     = "前往塞拉摩岛",
-    ["Boat to Booty Bay"]          = "前往藏宝海湾",
-    ["Boat to Ratchet"]            = "前往棘齿城",
-    ["Boat to Forgotten Coast"]    = "前往被遗忘的海岸",
-    ["Boat to Sardor Isle"]        = "前往萨多尔岛",
-    ["Boat to Revantusk Village"]  = "前往恶齿村",
-    ["Boat to Sparkwater Port"]    = "前往怒水港",
-    ["Zeppelins to UC & Grom'Gol"]      = "飞艇前往幽暗城和格罗姆高",
-    ["Zeppelins to TB & Kargath"]        = "飞艇前往雷霆崖和卡加斯",
-    ["Zeppelin to Orgrimmar"]            = "飞艇前往奥格瑞玛",
-    ["Zeppelins to Orgrimmar & Grom'Gol"] = "飞艇前往奥格瑞玛和格罗姆高",
-    ["Zeppelins to UC & Orgrimmar"]      = "飞艇前往幽暗城和奥格瑞玛",
-    ["Tram to Stormwind"]     = "地铁前往暴风城",
-    ["Tram to Ironforge"]     = "地铁前往铁炉堡",
+    -- Transport masks
+    -- %s will get substituted with the destination's localized name
+    ["Boat to %s"]      = "乘船前往%s",
+    ["Zeppelin to %s"]  = "乘飞艇前往%s",
+    ["Tram to %s"]      = "地铁前往%s",
 
     -- Tooltip labels
     ["Level"]    = "等级",

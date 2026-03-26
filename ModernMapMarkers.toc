@@ -6,6 +6,7 @@
 ## OptionalDeps: pfUI, pfQuest, InstanceJournal
 ## SavedVariables: ModernMapMarkersDB
 
+pfDB\pfDB.xml
 Localization.lua
 Locales\Locale_deDE.lua
 Locales\Locale_esES.lua

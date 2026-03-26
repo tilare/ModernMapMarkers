@@ -1,140 +1,29 @@
 --- Locale_ptBR.lua - Portuguese (Brazil) Localization for ModernMapMarkers
 
-ModernMapMarkers_Locale:RegisterZones("ptBR", {
-    -- Continent names
+ModernMapMarkers_Locale:RegisterDictionary("ptBR", {
     ["Kalimdor"]             = "Kalimdor",
     ["Eastern Kingdoms"]     = "Reinos do Leste",
-    ["Ashenvale"]            = "Vale Gris",
-    ["Azshara"]              = "Azshara",
-    ["Badlands"]             = "Ermos",
-    ["Balor"]                = "Balor",
-    ["Blasted Lands"]        = "Barreira do Inferno",
-    ["Burning Steppes"]      = "Estepes Ardentes",
-    ["Darkshore"]            = "Costa Negra",
-    ["Deadwind Pass"]        = "Trilha do Vento Morto",
-    ["Desolace"]             = "Desolação",
-    ["Dun Morogh"]           = "Dun Morogh",
-    ["Durotar"]              = "Durotar",
-    ["Duskwood"]             = "Floresta do Crepúsculo",
-    ["Dustwallow Marsh"]     = "Pântano Vadeoso",
-    ["Eastern Plaguelands"]  = "Terras Pestilentas Orientais",
-    ["Elwynn Forest"]        = "Floresta de Elwynn",
-    ["Feralas"]              = "Feralas",
-    ["Gilneas"]              = "Gilneas",
-    ["Hyjal"]                = "Hyjal",
-    ["Ironforge"]            = "Altaforja",
-    ["Moonwhisper Coast"]    = "Costa do Sussurro da Lua",
-    ["Orgrimmar"]            = "Orgrimmar",
-    ["Searing Gorge"]        = "Garganta Abrasadora",
-    ["Silithus"]             = "Silithus",
-    ["Silverpine Forest"]    = "Floresta de Pinhaprata",
-    ["Stormwind City"]       = "Ventobravo",
-    ["Stranglethorn Vale"]   = "Selva do Espinhaço",
-    ["Swamp of Sorrows"]     = "Pântano das Mágoas",
-    ["Tanaris"]              = "Tanaris",
-    ["Teldrassil"]           = "Teldrassil",
-    ["The Barrens"]          = "Sertões",
-    ["The Hinterlands"]      = "Terras Agrestes",
-    ["Thunder Bluff"]        = "Penhasco do Trovão",
-    ["Tirisfal Glades"]      = "Clareiras de Tirisfal",
-    ["Western Plaguelands"]  = "Terras Pestilentas Ocidentais",
-    ["Westfall"]             = "Cerro Oeste",
-    ["Wetlands"]             = "Pantanal",
-    ["Alah'Thalas"]          = "Alah'Thalas",
-})
+    -- Dungeon masks
+    -- %s will get substituted with the localized Dungeon name
+    ["%s - East"]           = "%s - Leste", -- Dire Maul
+    ["%s - West"]           = "%s - Oeste", -- Dire Maul
+    ["%s - North"]          = "%s - Norte", -- Dire Maul
+    ["%s - Back Entrance"]  = "%s - Entrada Traseira", -- Stormwrought Ruins, Uldaman
+    ["Lower %s"]            = "%s Inferior", -- Lower Blackrock Spire
+    ["Upper %s"]            = "%s Superior", -- Upper Blackrock Spire
+    ["%s - Armory"]         = "%s - Arsenal", -- Scarlet Monastery
+    ["%s - Cathedral"]      = "%s - Catedral", -- Scarlet Monastery
+    ["%s - Graveyard"]      = "%s - Cemitério", -- Scarlet Monastery
+    ["%s - Library"]        = "%s - Biblioteca", -- Scarlet Monastery
+    ["%s - Back Gate"]      = "%s - Portão Traseiro", -- Stratholme
+    ["%s - Horde Entrance"] = "%s - Entrada da Horda", -- Stormwind Vault
+    ["%s - Main Entrance"]  = "%s - Entrada Principal", -- Uldaman
 
-ModernMapMarkers_Locale:RegisterMarkers("ptBR", {
-    -- Dungeons
-    ["Blackfathom Deeps"]                   = "Profundezas Negras",
-    ["Crescent Grove"]                      = "Bosque do Crescente",
-    ["Maraudon"]                            = "Maraudon",
-    ["Ragefire Chasm"]                      = "Cavernas Ragefire",
-    ["Dire Maul"]                           = "Gládio Cruel",
-    ["Dire Maul - East"]                    = "Gládio Cruel - Leste",
-    ["Dire Maul - North"]                   = "Gládio Cruel - Norte",
-    ["Dire Maul - West"]                    = "Gládio Cruel - Oeste",
-    ["Razorfen Downs"]                      = "Urzal dos Mortos",
-    ["Razorfen Kraul"]                      = "Razorfen Kraul",
-    ["Wailing Caverns"]                     = "Cavernas Uivantes",
-    ["Zul'Farrak"]                          = "Zul'Farrak",
-    ["Black Morass"]                        = "O Morass Negro",
-    ["Gnomeregan"]                          = "Gnomeregan",
-    ["Stormwrought Ruins"]                  = "Ruínas da Tempestade",
-    ["Stormwrought Ruins - Back Entrance"]  = "Ruínas da Tempestade - Entrada Traseira",
-    ["Blackrock Depths"]                    = "Abismo Rocha Negra",
-    ["Hateforge Quarry"]                    = "Pedreira Forja do Ódio",
-    ["Lower Blackrock Spire"]               = "Pico da Rocha Negra Inferior",
-    ["Upper Blackrock Spire"]               = "Pico da Rocha Negra Superior",
-    ["Karazhan Crypt"]                      = "Cripta Karazhan",
-    ["Scarlet Monastery"]                   = "Monastério Scarlet",
-    ["Scarlet Monastery - Armory"]          = "Monastério Scarlet - Arsenal",
-    ["Scarlet Monastery - Cathedral"]       = "Monastério Scarlet - Catedral",
-    ["Scarlet Monastery - Graveyard"]       = "Monastério Scarlet - Cemitério",
-    ["Scarlet Monastery - Library"]         = "Monastério Scarlet - Biblioteca",
-    ["Scholomance"]                         = "Scholomance",
-    ["Shadowfang Keep"]                     = "Fortaleza Shadowfang",
-    ["Stratholme"]                          = "Stratholme",
-    ["Stratholme - Back Gate"]              = "Stratholme - Portão Traseiro",
-    ["The Deadmines"]                       = "As Minas Mortas",
-    ["The Stockade"]                        = "A Prisão",
-    ["Stormwind Vault"]                     = "Cofre Stormwind",
-    ["Stormwind Vault - Horde Entrance"]    = "Cofre Stormwind - Entrada da Horda",
-    ["Gilneas City"]                        = "Cidade de Gilneas",
-    ["The Sunken Temple"]                   = "O Templo Abaixo d'Água",
-    ["Dragonmaw Retreat"]                   = "Refúgio Presa do Dragão",
-    ["Uldaman"]                             = "Uldaman",
-    ["Uldaman - Main Entrance"]             = "Uldaman - Entrada Principal",
-    ["Uldaman - Back Entrance"]             = "Uldaman - Entrada Traseira",
-    ["Frostmane Hollow"]                    = "Frostmane Hollow",
-    ["Windhorn Canyon"]                     = "Windhorn Canyon",
-
-    -- Raids
-    ["Onyxia's Lair"]          = "Caverna de Onyxia",
-    ["Emerald Sanctum"]        = "Santuário Esmeralda",
-    ["Ruins of Ahn'Qiraj"]     = "Ruínas de Ahn'Qiraj",
-    ["Temple of Ahn'Qiraj"]    = "Templo de Ahn'Qiraj",
-    ["Blackwing Lair"]         = "Covil Asa Negra",
-    ["Molten Core"]            = "Núcleo Derretido",
-    ["Lower Karazhan Halls"]   = "Salões Inferiores de Karazhan",
-    ["Tower of Karazhan"]      = "Torre de Karazhan",
-    ["Naxxramas"]              = "Naxxramas",
-    ["Zul'Gurub"]              = "Zul'Gurub",
-    ["Timbermaw Hold"]         = "Timbermaw Hold",
-
-    -- World Bosses
-    ["Taerar"]                 = "Taerar",
-    ["Lethon"]                 = "Lethon",
-    ["Emeriss"]                = "Emeriss",
-    ["Ysondre"]                = "Ysondre",
-    ["Azuregos"]               = "Azuregos",
-    ["Cla'ckora"]              = "Cla'ckora",
-    ["Concavius"]              = "Concavius",
-    ["Father Lycan"]           = "Pai Lycan",
-    ["Lord Kazzak"]            = "Lorde Kazzak",
-    ["Ostarius"]               = "Ostarius",
-    ["Dark Reaver of Karazhan"]  = "Saqueador Sombrio de Karazhan",
-    ["Nerubian Overseer"]      = "Supervisor Nerubiano",
-
-    -- Transports
-    ["Boat to Stormwind"]          = "Barco para Ventobravo",
-    ["Boat to Alah'Thalas"]        = "Barco para Alah'Thalas",
-    ["Boat to Rut'Theran Village"] = "Barco para Aldeia Rut'Theran",
-    ["Boat to Auberdine"]          = "Barco para Auberdine",
-    ["Boat to Menethil Harbor"]    = "Barco para Puerto Menethil",
-    ["Boat to Theramore Isle"]     = "Barco para Ilha Theramore",
-    ["Boat to Booty Bay"]          = "Barco para Angra do Butim",
-    ["Boat to Ratchet"]            = "Barco para Carroça",
-    ["Boat to Forgotten Coast"]    = "Barco para Costa Esquecida",
-    ["Boat to Sardor Isle"]        = "Barco para Ilha Sardor",
-    ["Boat to Revantusk Village"]  = "Barco para Aldeia Revantusk",
-    ["Boat to Sparkwater Port"]    = "Barco para Porto Sparkwater",
-    ["Zeppelins to UC & Grom'Gol"]      = "Zepelins para UC e Grom'Gol",
-    ["Zeppelins to TB & Kargath"]        = "Zepelins para TB e Kargath",
-    ["Zeppelin to Orgrimmar"]            = "Zepelim para Orgrimmar",
-    ["Zeppelins to Orgrimmar & Grom'Gol"] = "Zepelins para Orgrimmar e Grom'Gol",
-    ["Zeppelins to UC & Orgrimmar"]      = "Zepelins para UC e Orgrimmar",
-    ["Tram to Stormwind"]     = "Trem para Ventobravo",
-    ["Tram to Ironforge"]     = "Trem para Altaforja",
+    -- Transport masks
+    -- %s will get substituted with the destination's localized name
+    ["Boat to %s"]      = "Barco para %s",
+    ["Zeppelin to %s"]  = "Zepelim para %s",
+    ["Tram to %s"]      = "Trem para %s",
 
     -- Tooltip labels
     ["Level"]    = "Nível",
