@@ -57,7 +57,7 @@ function MMM_GUI.InitializeWorldMapControls()
         end
         filterOptions[1].checked = allOn
     end
-    
+
     -- Determine Parent Frame (Standard or pfQuest)
     local dropdownParent = WorldMapFrame
 
@@ -90,7 +90,7 @@ function MMM_GUI.InitializeWorldMapControls()
     -- Approximate width: ~7px per character + padding, with minimum
     local dropdownWidth = math.max(MIN_DROPDOWN_WIDTH, longestLabel * 7 + PADDING)
     local dropdownButtonWidth = dropdownWidth + 5
-    
+
     if _G.pfQuestMapDropdown then
         dropdownParent = _G.pfQuestMapDropdown:GetParent() or dropdownParent
     end
@@ -100,7 +100,7 @@ function MMM_GUI.InitializeWorldMapControls()
 
     filterFrame:SetFrameStrata(dropdownParent:GetFrameStrata())
     filterFrame:SetFrameLevel(dropdownParent:GetFrameLevel() + 10)
-    
+
     local filterBtn = getglobal(filterFrame:GetName().."Button")
     if filterBtn then filterBtn:SetFrameLevel(filterFrame:GetFrameLevel() + 2) end
 
@@ -110,10 +110,10 @@ function MMM_GUI.InitializeWorldMapControls()
     else
         filterFrame:SetPoint("TOPRIGHT", WorldMapFrame, "TOPRIGHT", -10, -40)
     end
-    
+
     UIDropDownMenu_Initialize(filterFrame, function(level)
         for _, itemRaw in ipairs(filterOptions) do
-            local item = itemRaw 
+            local item = itemRaw
 
             if item.isHeader then
                 local info = {}
@@ -155,7 +155,7 @@ function MMM_GUI.InitializeWorldMapControls()
                             filterOptions[1].checked = allOn
                         end
                     end
-                    ToggleDropDownMenu(1, nil, filterFrame) 
+                    ToggleDropDownMenu(1, nil, filterFrame)
                 end
                 UIDropDownMenu_AddButton(info, level)
             end
@@ -516,7 +516,7 @@ function MMM_GUI.InitializeWorldMapControls()
             _G.pfUI.api.SkinButton(btnWorldBoss)
         end
     end
-    
+
     -- Apply saved visibility state
     if ModernMapMarkersDB and ModernMapMarkersDB.hideDropdowns then
         filterFrame:Hide()
@@ -546,11 +546,11 @@ SlashCmdList["MMM"] = function()
         ModernMapMarkersDB = { filters = {} }
     end
     ModernMapMarkersDB.hideDropdowns = not ModernMapMarkersDB.hideDropdowns
-    
+
     local filterFrame = getglobal("ModernMapMarkersFilter_Blizz")
     local findFrame   = getglobal("ModernMapMarkersFind_Blizz")
     local findPanel   = getglobal("ModernMapMarkersFind_Panel")
-    
+
     if filterFrame and findFrame then
         if ModernMapMarkersDB.hideDropdowns then
             filterFrame:Hide()
